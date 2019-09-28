@@ -94,5 +94,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GraphicsServices\GraphicsServices.csproj">
+      <Project>{2FC744C1-3C6E-4841-A068-A02DC27E1ECB}</Project>
+      <Name>GraphicsServices</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
