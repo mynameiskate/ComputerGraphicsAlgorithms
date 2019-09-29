@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Numerics;
 
 namespace GraphicsServices.GraphicObjTypes
 {
@@ -44,6 +45,11 @@ namespace GraphicsServices.GraphicObjTypes
                 if (!success) throw new ArgumentException($"Type vertex: Could not parse {data[4]} as W");
                 W = w;
             }
+        }
+
+        public Vector3 ToVector()
+        {
+            return new Vector3((float)X, (float)Y, (float)Z);
         }
 
         public override string ToString()
