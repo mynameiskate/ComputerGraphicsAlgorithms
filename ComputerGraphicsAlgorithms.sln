@@ -5,7 +5,12 @@ VisualStudioVersion = 15.0.28307.438
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComputerGraphicsAlgorithms", "ComputerGraphicsAlgorithms\ComputerGraphicsAlgorithms.csproj", "{EE2C1228-EF82-4309-8DD0-8233976D818A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphicsServices", "GraphicsServices\GraphicsServices.csproj", "{2FC744C1-3C6E-4841-A068-A02DC27E1ECB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphicsServices", "GraphicsServices\GraphicsServices.csproj", "{2FC744C1-3C6E-4841-A068-A02DC27E1ECB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{F3BE317C-8571-427A-AEC5-1A1D4DCFB29B}"
+	ProjectSection(SolutionItems) = preProject
+		D:\University\7th semester\АКГ\fox.obj = D:\University\7th semester\АКГ\fox.obj
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,6 +1,7 @@
 ﻿using GraphicsServices;
 using GraphicsServices.RenderObjTypes;
 using System;
+using System.IO;
 using System.Numerics;
 using System.Windows;
 using System.Windows.Media;
@@ -18,15 +19,19 @@ namespace ComputerGraphicsAlgorithms
         Camera camera = new Camera();
         RenderObj mesh;
 
+        // Temporary example of file name for parsing
+        string path = "fox.obj";
+
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private void LoadFile()
+        private void LoadFile(string fileName)
         {
             var parser = new ObjParser();
-            parser.LoadObj("D:\\University\\7th semester\\АКГ\\fox.obj");
+            var path = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\", "examples", fileName));
+            parser.LoadObj(path);
 
             // Choose the back buffer resolution here
             WriteableBitmap bmp = new WriteableBitmap((int)image.Width, (int)image.Height,
@@ -49,7 +54,7 @@ namespace ComputerGraphicsAlgorithms
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            LoadFile();
+            LoadFile(path);
         }
 
         private void UpdateAnimation(object sender, object e)
@@ -61,7 +66,7 @@ namespace ComputerGraphicsAlgorithms
 
             if (mesh.Direction < 0)
             {
-                if (x <= 0) { mesh.Direction = 1; } else { x--; };
+                if (x <= -range) { mesh.Direction = 1; } else { x--; };
             }
             else
             {
