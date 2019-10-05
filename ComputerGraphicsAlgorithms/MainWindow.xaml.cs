@@ -20,7 +20,7 @@ namespace ComputerGraphicsAlgorithms
         RenderObj mesh;
 
         // Temporary example of file name for parsing
-        string path = "fox.obj";
+        string path = "african_head.obj";
 
         public MainWindow()
         {
@@ -59,21 +59,30 @@ namespace ComputerGraphicsAlgorithms
 
         private void UpdateAnimation(object sender, object e)
         {
-            mesh.Rotation = new Vector3(mesh.Rotation.X - 0.01f, mesh.Rotation.Y - 0.01f, mesh.Rotation.Z);
+            mesh.Rotation = new Vector3(mesh.Rotation.X, mesh.Rotation.Y - 0.01f, mesh.Rotation.Z);
 
-            var x = mesh.Position.X;
+            var z = mesh.Position.Z;
             var range = 30;
 
             if (mesh.Direction < 0)
             {
-                if (x <= -range) { mesh.Direction = 1; } else { x--; };
+                if (z <= -range) { mesh.Direction = 1; } else { z--; };
             }
             else
             {
-                if (x >= range) { mesh.Direction = -1; } else { x++; };
+                if (z >= range) { mesh.Direction = -1; } else { z++; };
             }
 
-            mesh.Position = new Vector3(x, mesh.Position.Y, mesh.Position.Z);
+            //if ((mesh.Scale < 1) || (mesh.Scale <= 2))
+            //{
+            //    mesh.Scale++;
+            //}
+            //else if (mesh.Scale > 5)
+            //{
+            //    mesh.Scale--;
+            //}
+
+            mesh.Position = new Vector3(mesh.Position.X, mesh.Position.Y, z);
             renderer.Clear();
             renderer.Render(camera, new RenderObj[] { mesh });
         }

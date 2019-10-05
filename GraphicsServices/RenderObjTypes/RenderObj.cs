@@ -11,6 +11,7 @@ namespace GraphicsServices.RenderObjTypes
         public Vector3 Position { get; set; }
         public Vector3 Rotation { get; set; }
         public int Direction = 1;
+        public int Scale = 1;
 
         public RenderObj(string name, int verticesCount, int facesCount)
         {

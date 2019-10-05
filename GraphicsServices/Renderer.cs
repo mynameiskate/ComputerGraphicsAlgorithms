@@ -64,7 +64,9 @@ namespace GraphicsServices
 
         public void Clear()
         {
-            bmp.Clear();
+            var bgColor = Color.DarkOliveGreen;
+            System.Windows.Media.Color color = System.Windows.Media.Color.FromArgb(bgColor.A, bgColor.R, bgColor.G, bgColor.B);
+            bmp.Clear(color);
         }
 
         // Writing a chunk of pixels to bitmap
@@ -114,7 +116,7 @@ namespace GraphicsServices
             var point = Vector3.Transform(coord, transMat);
 
             var x = point.X + bmp.PixelWidth / 2.0f;
-            var y = -point.Y + bmp.PixelHeight * 0.9f;
+            var y = -point.Y + bmp.PixelHeight / 2.0f;
             return (new Vector2(x, y));
         }
 
@@ -123,14 +125,14 @@ namespace GraphicsServices
         public void Render(Camera camera, RenderObj[] meshes)
         {
             var viewMatrix = Matrix4x4.CreateLookAt(camera.Position, camera.Target, Vector3.UnitY);
-            var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(0.9f,
+            var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(1f,
                                                            (float)bmp.PixelWidth / bmp.PixelHeight,
-                                                           10.0f, 20.0f);
+                                                           10f, 20f);
             foreach (RenderObj mesh in meshes)
             {
-                var worldMatrix = Matrix4x4.CreateRotationY(mesh.Rotation.Y, mesh.Position) *
-                                  Matrix4x4.CreateTranslation(mesh.Position) *
-                                  Matrix4x4.CreateScale(new Vector3(3, 2, 1), mesh.Position);
+                var worldMatrix = Matrix4x4.CreateScale(new Vector3(100, 100, 100), mesh.Position) *
+                                  Matrix4x4.CreateRotationY(mesh.Rotation.Y, mesh.Position) *
+                                  Matrix4x4.CreateTranslation(mesh.Position);
 
                 var transformMatrix = worldMatrix * viewMatrix * projectionMatrix;
 
