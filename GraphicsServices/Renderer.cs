@@ -41,21 +41,38 @@ namespace GraphicsServices
             int x1 = (int)point1.X;
             int y1 = (int)point1.Y;
 
-            var dx = Math.Abs(x1 - x0);
-            var dy = Math.Abs(y1 - y0);
-            var sx = (x0 < x1) ? 1 : -1;
-            var sy = (y0 < y1) ? 1 : -1;
-            var err = dx - dy;
-
             var drawnPoints = new List<Vector2>();
 
-            while ((x0 != x1) && (y0 != y1))
+            x0 = x0 < 0 ? 0 : x0;
+            x1 = x1 < 0 ? 0 : x1;
+            y0 = y0 < 0 ? 0 : y0;
+            y1 = y1 < 0 ? 0 : y1;
+
+            int deltaX = Math.Abs(x1 - x0);
+            int deltaY = Math.Abs(y1 - y0);
+            int signX = x0 < x1 ? 1 : -1;
+            int signY = y0 < y1 ? 1 : -1;
+
+            int error = deltaX - deltaY;
+
+            drawnPoints.Add(new Vector2(x1, y1));
+
+            while (x0 != x1 || y0 != y1)
             {
                 drawnPoints.Add(new Vector2(x0, y0));
 
-                var e2 = 2 * err;
-                if (e2 > -dy) { err -= dy; x0 += sx; }
-                if (e2 < dx) { err += dx; y0 += sy; }
+                int error2 = error * 2;
+
+                if (error2 > -deltaY)
+                {
+                    error -= deltaY;
+                    x0 += signX;
+                }
+                if (error2 < deltaX)
+                {
+                    error += deltaX;
+                    y0 += signY;
+                }
             }
 
             DrawPoints(drawnPoints);
@@ -117,6 +134,7 @@ namespace GraphicsServices
 
             var x = point.X + bmp.PixelWidth / 2.0f;
             var y = -point.Y + bmp.PixelHeight / 2.0f;
+
             return (new Vector2(x, y));
         }
 
@@ -124,13 +142,14 @@ namespace GraphicsServices
         // Note: vertices are drawn in groups (faces).
         public void Render(Camera camera, RenderObj[] meshes)
         {
-            var viewMatrix = Matrix4x4.CreateLookAt(camera.Position, camera.Target, Vector3.UnitY);
+            var viewMatrix = Matrix4x4.CreateLookAt(camera.Position, camera.Target, Vector3.UnitZ);
             var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(1f,
-                                                           (float)bmp.PixelWidth / bmp.PixelHeight,
-                                                           10f, 20f);
+                                       (float)bmp.PixelHeight / bmp.PixelWidth,
+                                       1f, 2f);
+
             foreach (RenderObj mesh in meshes)
             {
-                var worldMatrix = Matrix4x4.CreateScale(new Vector3(100, 100, 100), mesh.Position) *
+                var worldMatrix = Matrix4x4.CreateScale(50) *
                                   Matrix4x4.CreateRotationY(mesh.Rotation.Y, mesh.Position) *
                                   Matrix4x4.CreateTranslation(mesh.Position);
 
@@ -138,17 +157,19 @@ namespace GraphicsServices
 
                 foreach (var face in mesh.Faces)
                 {
-                    var vertexA = mesh.Vertices[face.VertexIndexList[0] - 1];
-                    var vertexB = mesh.Vertices[face.VertexIndexList[1] - 1];
-                    var vertexC = mesh.Vertices[face.VertexIndexList[2] - 1];
+                    var pixels = new Vector2[face.VertexIndexList.Length];
+ 
+                    for (int i = 0; i < face.VertexIndexList.Length; i++)
+                    {
+                        pixels[i] = Project(mesh.Vertices[face.VertexIndexList[i] - 1], transformMatrix);
+                    }
 
-                    var pixelA = Project(vertexA, transformMatrix);
-                    var pixelB = Project(vertexB, transformMatrix);
-                    var pixelC = Project(vertexC, transformMatrix);
+                    for (int i = 0; i < pixels.Length - 1; i++)
+                    {
+                        DrawLine(pixels[i], pixels[i + 1]);
+                    }
 
-                    DrawLine(pixelA, pixelB);
-                    DrawLine(pixelB, pixelC);
-                    DrawLine(pixelC, pixelA);
+                    DrawLine(pixels[0], pixels[pixels.Length - 1]);
                 }
             }
         }
