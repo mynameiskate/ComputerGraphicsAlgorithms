@@ -128,28 +128,36 @@ namespace GraphicsServices
         }
 
         // Projecting 3D to 2D
-        public Vector2 Project(Vector3 coord, Matrix4x4 transMat)
+        public Vector2 Project(Vector4 coord, Matrix4x4 transMat)
         {
-            var point = Vector3.Transform(coord, transMat);
+            var point = Vector4.Transform(coord, transMat);
 
-            var x = point.X + bmp.PixelWidth / 2.0f;
-            var y = -point.Y + bmp.PixelHeight / 2.0f;
+            point /= point.W;
+
+            var x = point.X * (bmp.PixelWidth / 2.0f) + bmp.PixelWidth / 2.0f;
+            var y = -point.Y * (bmp.PixelHeight / 2.0f) + bmp.PixelHeight / 2.0f;
 
             return (new Vector2(x, y));
         }
 
         // Transforming initial vertices with the help of world, view, projection matrices.
         // Note: vertices are drawn in groups (faces).
-        public void Render(Camera camera, RenderObj[] meshes)
+        public void Render(Camera camera, RenderObj[] meshes, AxisType axis)
         {
-            var viewMatrix = Matrix4x4.CreateLookAt(camera.Position, camera.Target, Vector3.UnitZ);
-            var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(1f,
+            var centerVector = Vector3.UnitX;
+            if (axis == AxisType.Y)
+                centerVector = Vector3.UnitY;
+            else if (axis == AxisType.Z)
+                centerVector = Vector3.UnitZ;
+ 
+            var viewMatrix = Matrix4x4.CreateLookAt(camera.Position, camera.Target, centerVector);
+            var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView((float)Math.PI /3,
                                        (float)bmp.PixelHeight / bmp.PixelWidth,
                                        1f, 2f);
 
             foreach (RenderObj mesh in meshes)
             {
-                var worldMatrix = Matrix4x4.CreateScale(50) *
+                var worldMatrix = Matrix4x4.CreateScale(mesh.Scale) *
                                   Matrix4x4.CreateRotationY(mesh.Rotation.Y, mesh.Position) *
                                   Matrix4x4.CreateTranslation(mesh.Position);
 

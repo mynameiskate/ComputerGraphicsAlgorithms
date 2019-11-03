@@ -45,11 +45,20 @@ namespace GraphicsServices.GraphicObjTypes
                 if (!success) throw new ArgumentException($"Type vertex: Could not parse {data[4]} as W");
                 W = w;
             }
+            else
+            {
+                W = 1;
+            }
         }
 
         public Vector3 ToVector()
         {
             return new Vector3((float)X, (float)Y, (float)Z);
+        }
+
+        public Vector4 ToVector4()
+        {
+            return new Vector4((float)X, (float)Y, (float)Z, (float)W);
         }
 
         public override string ToString()
