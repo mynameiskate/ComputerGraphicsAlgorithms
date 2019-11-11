@@ -1,4 +1,5 @@
 ﻿using GraphicsServices;
+using GraphicsServices.GraphicObjTypes;
 using GraphicsServices.RenderObjTypes;
 using System;
 using System.IO;
@@ -20,7 +21,7 @@ namespace ComputerGraphicsAlgorithms
         RenderObj mesh;
 
         // Temporary example of file name for parsing
-        string path = "diablo3_pose.obj";
+        string path = "african_head.obj";
         private int _scale = 0;
         private float _xPos = 1f;
         private float _yPos = 1f;
@@ -51,8 +52,9 @@ namespace ComputerGraphicsAlgorithms
             // Choose the back buffer resolution here
             WriteableBitmap bmp = new WriteableBitmap((int)image.Width, (int)image.Height,
                 image.Width, image.Height, PixelFormats.Bgra32, null);
+            Bgr24Bitmap bitmap = new Bgr24Bitmap(bmp);
 
-            renderer = new Renderer(bmp);
+            renderer = new Renderer(bmp, bitmap);
             camera.Position = new Vector3(_xPos, _yPos, _zPos);
             camera.Target = Vector3.Zero;
             image.Source = bmp;
@@ -75,7 +77,7 @@ namespace ComputerGraphicsAlgorithms
 
         private void UpdateAnimation(object sender, object e)
         {
-            mesh.Rotation = new Vector3(mesh.Rotation.X, mesh.Rotation.Y - 0.01f, mesh.Rotation.Z);
+            //mesh.Rotation = new Vector3(mesh.Rotation.X, mesh.Rotation.Y - 0.01f, mesh.Rotation.Z);
             mesh.Scale = _scale;
             camera.Position = new Vector3(_xPos, _yPos, _zPos);
 

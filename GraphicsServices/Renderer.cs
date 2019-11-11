@@ -1,4 +1,5 @@
-﻿using GraphicsServices.RenderObjTypes;
+﻿using GraphicsServices.GraphicObjTypes;
+using GraphicsServices.RenderObjTypes;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -15,10 +16,12 @@ namespace GraphicsServices
     {
         private byte[] backBuffer;
         private WriteableBitmap bmp;
+        public Bgr24Bitmap bitmap { get; protected set; }
 
-        public Renderer(WriteableBitmap bmp)
+        public Renderer(WriteableBitmap bmp, Bgr24Bitmap bitmap)
         {
             this.bmp = bmp;
+            this.bitmap = bitmap;
             // 4 stands for RGBA
             backBuffer = new byte[bmp.PixelWidth * bmp.PixelHeight * 4];
         }
@@ -34,7 +37,7 @@ namespace GraphicsServices
         }
 
         // Bresenham's algorithm
-        public void DrawLine(Vector2 point0, Vector2 point1)
+        public void DrawLine(Vector2 point0, Vector2 point1, List<PixelInfo> sidesList, ZBuffer zBuf)
         {
             int x0 = (int)point0.X;
             int y0 = (int)point0.Y;
@@ -144,6 +147,8 @@ namespace GraphicsServices
         // Note: vertices are drawn in groups (faces).
         public void Render(Camera camera, RenderObj[] meshes, AxisType axis)
         {
+            ZBuffer zBuf = new ZBuffer(bitmap.PixelWidth, bitmap.PixelHeight);
+
             var centerVector = Vector3.UnitX;
             if (axis == AxisType.Y)
                 centerVector = Vector3.UnitY;
@@ -165,21 +170,70 @@ namespace GraphicsServices
 
                 foreach (var face in mesh.Faces)
                 {
+                    //if (IsFaceVisible(face))
+                    //{
+                    var sidesList = new List<PixelInfo>();
+
+                    Vector3 lightingVector = new Vector3(0, 0, -1);
+                   /* Vector3 point1Normal = DrawingObject.normalList[(int)face[0].Z];
+                    Vector3 point2Normal = DrawingObject.normalList[(int)face[1].Z];
+                    Vector3 point3Normal = DrawingObject.normalList[(int)face[2].Z];
+                    Color point1Color = LamberLighting.GetPointColor(point1Normal, lightingVector, ObjectColor);
+                    Color point2Color = LamberLighting.GetPointColor(point2Normal, lightingVector, ObjectColor);
+                    Color point3Color = LamberLighting.GetPointColor(point3Normal, lightingVector, ObjectColor);
+                    faceColor = PlaneShading.GetAverageColor(point1Color, point2Color, point3Color);*/
+
                     var pixels = new Vector2[face.VertexIndexList.Length];
- 
-                    for (int i = 0; i < face.VertexIndexList.Length; i++)
-                    {
-                        pixels[i] = Project(mesh.Vertices[face.VertexIndexList[i] - 1], transformMatrix);
-                    }
 
-                    for (int i = 0; i < pixels.Length - 1; i++)
-                    {
-                        DrawLine(pixels[i], pixels[i + 1]);
-                    }
+                        for (int i = 0; i < face.VertexIndexList.Length; i++)
+                        {
+                            pixels[i] = Project(mesh.Vertices[face.VertexIndexList[i] - 1], transformMatrix);
+                        }
 
-                    DrawLine(pixels[0], pixels[pixels.Length - 1]);
+                        for (int i = 0; i < pixels.Length - 1; i++)
+                        {
+                            DrawLine(pixels[i], pixels[i + 1], sidesList, zBuf);
+                        }
+
+                        DrawLine(pixels[0], pixels[pixels.Length - 1], sidesList, zBuf);
+
+                        Rasterization.DrawPixelForRasterization(sidesList, bitmap, zBuf, System.Windows.Media.Color.FromArgb(10, 10, 10, 255));
+                    //}
                 }
             }
+
+            //GraphicObjTypes.Rasterization.DrawPixelForRasterization(sidesList, Bitmap, zBuf, faceColor);
         }
+
+        private bool IsFaceVisible(List<Vector3> face)
+        {
+            bool result = true;
+
+           /* var normal = GetFaceNormal(face);
+
+            if (normal.Z >= 0)
+            {
+                result = false;
+            }*/
+
+            return result;
+        }
+
+        /*private Vector3 GetFaceNormal(List<Vector3> face)
+        {
+            int indexPoint1 = (int)face[0].X;
+            int indexPoint2 = (int)face[1].X;
+            int indexPoint3 = (int)face[2].X;
+            Vector4 point1 = DrawingObject.pointsList[indexPoint1];
+            Vector4 point2 = DrawingObject.pointsList[indexPoint2];
+            Vector4 point3 = DrawingObject.pointsList[indexPoint3];
+
+            Vector4 vector1 = point2 - point1;
+            Vector4 vector2 = point3 - point1;
+            Vector3 vector1XYZ = new Vector3(vector1.X, vector1.Y, vector1.Z);
+            Vector3 vector2XYZ = new Vector3(vector2.X, vector2.Y, vector2.Z);
+
+            return Vector3.Normalize(Vector3.Cross(vector1XYZ, vector2XYZ));
+        }*/
     }
 }
