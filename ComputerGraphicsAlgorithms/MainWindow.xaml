@@ -7,13 +7,12 @@
         xmlns:local="clr-namespace:ComputerGraphicsAlgorithms"
         mc:Ignorable="d"
         Loaded="Window_Loaded"
-        Title="MainWindow" Height="600" Width="900">
-    <Grid HorizontalAlignment="Left" Margin="0,0,0,-0.333" Width="743">
-        <Image x:Name="image" Margin="10,30,0,10"
-               HorizontalAlignment="Left" Width="500" Height="500"/>
-        <Label Content="Settings" HorizontalAlignment="Left" Margin="651,24,0,0" VerticalAlignment="Top" FontSize="16" IsEnabled="False" Width="85"/>
-        <Label Content="Scale" HorizontalAlignment="Left" Margin="639,60,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="47"/>
-        <xctk:IntegerUpDown Minimum="1" Maximum="200" Name="myUpDownControl" Margin="700,62,-74,481.333"
+        Title="MainWindow" Height="600" Width="1106">
+    <Grid HorizontalAlignment="Left" Margin="0,0,0,-0.333" Width="746">
+        <Image x:Name="image" Margin="10,45,0,26" Height="500" HorizontalAlignment="Left" Width="730"/>
+        <Label Content="Settings" HorizontalAlignment="Left" Margin="824,17,-166,0" VerticalAlignment="Top" FontSize="16" IsEnabled="False" Width="85"/>
+        <Label Content="Scale" HorizontalAlignment="Left" Margin="812,53,-116,0" VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="47"/>
+        <xctk:IntegerUpDown Minimum="1" Maximum="200" Name="myUpDownControl" Margin="873,55,-247,489"
                             Value="1" RenderTransformOrigin="0.5,0.506" ValueChanged="ScaleChanged">
             <xctk:IntegerUpDown.RenderTransform>
                 <TransformGroup>
@@ -23,9 +22,9 @@
                 </TransformGroup>
             </xctk:IntegerUpDown.RenderTransform>
         </xctk:IntegerUpDown>
-        <Label Content="Camera position" HorizontalAlignment="Left" Margin="588,111,0,0"
+        <Label Content="Camera position" HorizontalAlignment="Left" Margin="761,104,-116,0"
                VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="98"/>
-        <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="xPosUpdown" Width="50" Margin="701,115,-8,428.333"
+        <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="xPosUpdown" Width="50" Margin="874,108,-181,436"
             Value="1" RenderTransformOrigin="0.5,0.506" ValueChanged="xCameraPos_Changed">
             <xctk:IntegerUpDown.RenderTransform>
                 <TransformGroup>
@@ -35,7 +34,7 @@
                 </TransformGroup>
             </xctk:IntegerUpDown.RenderTransform>
         </xctk:IntegerUpDown>
-        <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="yPosUpdown" Width="50" Margin="764,115,-71,428.333"
+        <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="yPosUpdown" Width="50" Margin="937,108,-244,436"
             Value="1" RenderTransformOrigin="0.5,0.506" ValueChanged="yCameraPos_Changed">
             <xctk:IntegerUpDown.RenderTransform>
                 <TransformGroup>
@@ -45,7 +44,7 @@
                 </TransformGroup>
             </xctk:IntegerUpDown.RenderTransform>
         </xctk:IntegerUpDown>
-        <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="zPosUpdown" Width="50" Margin="828,114,-135,429.333"
+        <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="zPosUpdown" Width="50" Margin="1001,107,-308,437"
             Value="1" RenderTransformOrigin="0.5,0.506" ValueChanged="zCameraPos_Changed">
             <xctk:IntegerUpDown.RenderTransform>
                 <TransformGroup>
@@ -55,13 +54,13 @@
                 </TransformGroup>
             </xctk:IntegerUpDown.RenderTransform>
         </xctk:IntegerUpDown>
-        <Label Content="Axis" HorizontalAlignment="Left" Margin="651,157,0,0"
+        <Label Content="Axis" HorizontalAlignment="Left" Margin="824,150,-121,0"
             VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Height="39" Width="40"/>
         <RadioButton Name="xAxisRadioBtn" Content="X" IsChecked="True" HorizontalAlignment="Left"
-                     Margin="713,163,-3,0" VerticalAlignment="Top" Checked="XAxisRadioBtn_Checked" Width="33"/>
+                     Margin="886,156,-176,0" VerticalAlignment="Top" Checked="XAxisRadioBtn_Checked" Width="33"/>
         <RadioButton x:Name="yAxisRadioBtn" Content="Y" HorizontalAlignment="Left"
-                     Margin="772,163,-62,0" VerticalAlignment="Top" Checked="YAxisRadioBtn_Checked" Width="33"/>
+                     Margin="945,156,-235,0" VerticalAlignment="Top" Checked="YAxisRadioBtn_Checked" Width="33"/>
         <RadioButton x:Name="zAxisRadioBtn" Content="Z" HorizontalAlignment="Left"
-                     Margin="834,163,-124,0" VerticalAlignment="Top" Checked="ZAxisRadioBtn_Checked" Width="33"/>
+                     Margin="1007,156,-297,0" VerticalAlignment="Top" Checked="ZAxisRadioBtn_Checked" Width="33"/>
     </Grid>
 </Window>

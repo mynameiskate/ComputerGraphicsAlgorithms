@@ -4,6 +4,7 @@ using GraphicsServices.RenderObjTypes;
 using System;
 using System.IO;
 using System.Numerics;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -27,6 +28,8 @@ namespace ComputerGraphicsAlgorithms
         private float _yPos = 1f;
         private float _zPos = 1f;
         private AxisType axis = AxisType.X;
+        private int dpiX;
+        private int dpiY;
 
         public int CurrentScale
         {
@@ -34,7 +37,6 @@ namespace ComputerGraphicsAlgorithms
             set
             {
                 _scale = value;
-
             }
         }
 
@@ -49,17 +51,10 @@ namespace ComputerGraphicsAlgorithms
             var path = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\", "examples", fileName));
             parser.LoadObj(path);
 
-            // Choose the back buffer resolution here
-            WriteableBitmap bmp = new WriteableBitmap((int)image.Width, (int)image.Height,
-                image.Width, image.Height, PixelFormats.Bgra32, null);
-            Bgr24Bitmap bitmap = new Bgr24Bitmap(bmp);
-
-            renderer = new Renderer(bmp, bitmap);
             camera.Position = new Vector3(_xPos, _yPos, _zPos);
             camera.Target = Vector3.Zero;
-            image.Source = bmp;
 
-            mesh = new RenderObj("Fox", parser.VertexList.Count, parser.FaceList.Count);
+            mesh = new RenderObj(parser.VertexList.Count, parser.FaceList.Count);
             for (var i = 0; i < parser.VertexList.Count; i++)
             {
                 mesh.Vertices[i] = parser.VertexList[i].ToVector4();
@@ -77,12 +72,13 @@ namespace ComputerGraphicsAlgorithms
 
         private void UpdateAnimation(object sender, object e)
         {
+            WriteableBitmap bmp = new WriteableBitmap((int)image.Width, (int)image.Height,
+                dpiX, dpiY, PixelFormats.Bgra32, null);
+            renderer = new Renderer(bmp);
+
             //mesh.Rotation = new Vector3(mesh.Rotation.X, mesh.Rotation.Y - 0.01f, mesh.Rotation.Z);
             mesh.Scale = _scale;
             camera.Position = new Vector3(_xPos, _yPos, _zPos);
-
-            /*var z = mesh.Position.Z;
-            var range = 10;*/
 
             /*if (mesh.Direction < 0)
             {
@@ -93,18 +89,19 @@ namespace ComputerGraphicsAlgorithms
                 if (z >= range) { mesh.Direction = -1; } else { z++; };
             }*/
 
-            //if ((mesh.Scale < 1) || (mesh.Scale <= 2))
-            //{
-            //    mesh.Scale++;
-            //}
-            //else if (mesh.Scale > 5)
-            //{
-            //    mesh.Scale--;
-            //}
-
             /*mesh.Position = new Vector3(mesh.Position.X, mesh.Position.Y, z);*/
             renderer.Clear();
             renderer.Render(camera, new RenderObj[] { mesh }, axis);
+            image.Source = renderer.bmp.Source;
+        }
+
+        private void GetDPI()
+        {
+            var dpiXProperty = typeof(SystemParameters).GetProperty("DpiX", BindingFlags.NonPublic | BindingFlags.Static);
+            var dpiYProperty = typeof(SystemParameters).GetProperty("Dpi", BindingFlags.NonPublic | BindingFlags.Static);
+
+            dpiX = (int)dpiXProperty.GetValue(null, null);
+            dpiY = (int)dpiYProperty.GetValue(null, null);
         }
 
         private void ScaleChanged(Object sender, EventArgs e)
