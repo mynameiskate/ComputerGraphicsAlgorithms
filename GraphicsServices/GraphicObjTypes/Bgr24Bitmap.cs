@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -33,6 +32,18 @@ namespace GraphicsServices.GraphicObjTypes
         {
             return (byte*)(BackBuffer + y * BackBufferStride + x * BytesPerPixel);
         }
+        
+
+        public void Clear(Color color)
+        {
+            for (int i = 0; i < PixelWidth; i++)
+            {
+                for (int j = 0; j < PixelHeight; j++)
+                {
+                    this[i, j] = color;
+                }
+            }
+        }
 
         public unsafe Color this[int x, int y]
         {
@@ -41,6 +52,7 @@ namespace GraphicsServices.GraphicObjTypes
                 byte* address = GetAddress(x, y);
                 return Color.FromArgb(address[3], address[2], address[1], address[0]);
             }
+
             set
             {
                 if (x < PixelWidth && y < PixelHeight && x >= 0 && y >= 0)

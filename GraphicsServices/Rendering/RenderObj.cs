@@ -5,7 +5,6 @@ namespace GraphicsServices.RenderObjTypes
 {
     public class RenderObj
     {
-        public string Name { get; set; }
         public Vector4[] Vertices { get; private set; }
         public Face[] Faces { get; set; }
         public Vector3 Position { get; set; }
@@ -13,9 +12,8 @@ namespace GraphicsServices.RenderObjTypes
         public int Direction = 1;
         public int Scale = 1;
 
-        public RenderObj(string name, int verticesCount, int facesCount)
+        public RenderObj(int verticesCount, int facesCount)
         {
-            Name = name;
             Vertices = new Vector4[verticesCount];
             Faces = new Face[facesCount];
         }
