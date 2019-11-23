@@ -1,8 +1,7 @@
-﻿using System;
+﻿using GraphicsServices.Extensions;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace GraphicsServices.GraphicObjTypes
 {
@@ -17,7 +16,8 @@ namespace GraphicsServices.GraphicObjTypes
         {
             Width = width;
             Height = height;
-            buffer = System.Linq.Enumerable.Repeat(2d, width * height).ToArray();
+            buffer = new double[width * height];
+            buffer.Populate(2d);
         }
 
         private int GetAddress(int x, int y)
@@ -25,23 +25,16 @@ namespace GraphicsServices.GraphicObjTypes
             return (y - 1) * Width + (x - 1);
         }
 
-        private bool IsValidParams(int x, int y)
+        private bool CoordinatesInRange(int x, int y)
         {
-            bool result = true;
-
-            if (x < 0 || x > Width || y < 0 || y > Height)
-            {
-                result = false;
-            }
-
-            return result;
+            return !(x < 0 || x > Width || y < 0 || y > Height);
         }
 
         public double this[int x, int y]
         {
             get
             {
-                if (IsValidParams(x, y))
+                if (CoordinatesInRange(x, y))
                 {
                     int address = GetAddress(x, y);
                     return buffer[address];
@@ -53,7 +46,7 @@ namespace GraphicsServices.GraphicObjTypes
             }
             set
             {
-                if (IsValidParams(x, y))
+                if (CoordinatesInRange(x, y))
                 {
                     int address = GetAddress(x, y);
                     buffer[address] = value;
