@@ -96,5 +96,17 @@
         </xctk:IntegerUpDown>
         <Label Content="Light position" HorizontalAlignment="Left" Margin="773,218,-113,0"
             VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="86"/>
+        <Label Content="Light Intensity" HorizontalAlignment="Left" Margin="778,281,-118,0"
+            VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="86"/>
+        <xctk:DecimalUpDown Minimum="0" Maximum="10" x:Name="lightIntensityUpdown" Width="50" Margin="874,284,-178,257"
+            Value="1" RenderTransformOrigin="0.5,0.506" ValueChanged="lightIntensity_Changed">
+            <xctk:DecimalUpDown.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <TranslateTransform X="0.003" Y="0.007"/>
+                </TransformGroup>
+            </xctk:DecimalUpDown.RenderTransform>
+        </xctk:DecimalUpDown>
     </Grid>
 </Window>

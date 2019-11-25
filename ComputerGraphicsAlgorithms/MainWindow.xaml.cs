@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Camera = GraphicsServices.RenderObjTypes.Camera;
+using Lighting = GraphicsServices.RenderObjTypes.Lighting;
 
 namespace ComputerGraphicsAlgorithms
 {
@@ -20,6 +21,7 @@ namespace ComputerGraphicsAlgorithms
         Renderer renderer;
         Camera camera = new Camera();
         RenderObj mesh;
+        Lighting lighting = new Lighting();
 
         // Temporary example of file name for parsing
         string path = "african_head.obj";
@@ -30,7 +32,6 @@ namespace ComputerGraphicsAlgorithms
         private AxisType axis = AxisType.X;
         private int dpiX;
         private int dpiY;
-        private Vector3 lightingVector = new Vector3(0, 0, 0);
 
         public int CurrentScale
         {
@@ -76,7 +77,7 @@ namespace ComputerGraphicsAlgorithms
         {
             WriteableBitmap bmp = new WriteableBitmap((int)image.Width, (int)image.Height,
                 dpiX, dpiY, PixelFormats.Bgra32, null);
-            renderer = new Renderer(bmp, lightingVector);
+            renderer = new Renderer(bmp, lighting);
 
             //mesh.Rotation = new Vector3(mesh.Rotation.X, mesh.Rotation.Y - 0.01f, mesh.Rotation.Z);
             mesh.Scale = _scale;
@@ -181,7 +182,7 @@ namespace ComputerGraphicsAlgorithms
 
             if (value != null)
             {
-                lightingVector.X = (float)value;
+                lighting.vector.X = (float)value;
             }
         }
 
@@ -191,7 +192,7 @@ namespace ComputerGraphicsAlgorithms
 
             if (value != null)
             {
-                lightingVector.Y = (float)value;
+                lighting.vector.Y = (float)value;
             }
         }
 
@@ -201,7 +202,17 @@ namespace ComputerGraphicsAlgorithms
 
             if (value != null)
             {
-                lightingVector.Z = (float)value;
+                lighting.vector.Z = (float)value;
+            }
+        }
+
+        private void lightIntensity_Changed(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            var value = lightIntensityUpdown.Value;
+
+            if (value != null)
+            {
+                lighting.intensity = (float)value;
             }
         }
     }
