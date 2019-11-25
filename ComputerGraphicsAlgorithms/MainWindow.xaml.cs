@@ -65,7 +65,7 @@ namespace ComputerGraphicsAlgorithms
 
             mesh.Faces = parser.FaceList.ToArray();
 
-            CompositionTarget.Rendering += UpdateAnimation;
+            UpdateAnimation();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -73,8 +73,13 @@ namespace ComputerGraphicsAlgorithms
             LoadFile(path);
         }
 
-        private void UpdateAnimation(object sender, object e)
+        private void UpdateAnimation()
         {
+            if (mesh == null)
+            {
+                return;
+            }
+
             WriteableBitmap bmp = new WriteableBitmap((int)image.Width, (int)image.Height,
                 dpiX, dpiY, PixelFormats.Bgra32, null);
             renderer = new Renderer(bmp, lighting);
@@ -114,6 +119,7 @@ namespace ComputerGraphicsAlgorithms
             if (value != null)
             {
                 _scale = (int)myUpDownControl.Value;
+                UpdateAnimation();
             }
         }
 
@@ -124,6 +130,7 @@ namespace ComputerGraphicsAlgorithms
             if (value != null)
             {
                 _xPos = (int)value;
+                UpdateAnimation();
             }
         }
 
@@ -134,6 +141,7 @@ namespace ComputerGraphicsAlgorithms
             if (value != null)
             {
                 _yPos = (int)value;
+                UpdateAnimation();
             }
         }
 
@@ -144,6 +152,7 @@ namespace ComputerGraphicsAlgorithms
             if (value != null)
             {
                 _zPos = (int)value;
+                UpdateAnimation();
             }
         }
 
@@ -155,6 +164,7 @@ namespace ComputerGraphicsAlgorithms
             {
                 yAxisRadioBtn.IsChecked = false;
                 zAxisRadioBtn.IsChecked = false;
+                UpdateAnimation();
             }
         }
 
@@ -166,6 +176,7 @@ namespace ComputerGraphicsAlgorithms
             {
                 xAxisRadioBtn.IsChecked = false;
                 zAxisRadioBtn.IsChecked = false;
+                UpdateAnimation();
             }
         }
 
@@ -174,6 +185,7 @@ namespace ComputerGraphicsAlgorithms
             axis = AxisType.Z;
             xAxisRadioBtn.IsChecked = false;
             yAxisRadioBtn.IsChecked = false;
+            UpdateAnimation();
         }
 
         private void xLightPos_Changed(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -183,6 +195,7 @@ namespace ComputerGraphicsAlgorithms
             if (value != null)
             {
                 lighting.vector.X = (float)value;
+                UpdateAnimation();
             }
         }
 
@@ -193,6 +206,7 @@ namespace ComputerGraphicsAlgorithms
             if (value != null)
             {
                 lighting.vector.Y = (float)value;
+                UpdateAnimation();
             }
         }
 
@@ -203,6 +217,7 @@ namespace ComputerGraphicsAlgorithms
             if (value != null)
             {
                 lighting.vector.Z = (float)value;
+                UpdateAnimation();
             }
         }
 
@@ -213,6 +228,7 @@ namespace ComputerGraphicsAlgorithms
             if (value != null)
             {
                 lighting.intensity = (float)value;
+                UpdateAnimation();
             }
         }
     }
