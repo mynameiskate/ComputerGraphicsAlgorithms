@@ -142,23 +142,26 @@ namespace GraphicsServices
 
                 Parallel.ForEach(mesh.Faces, (face) =>
                     {
-                       var point1 = mesh.Vertices[face.VertexIndexList[0] - 1].ToVector3();
-                        var point2 = mesh.Vertices[face.VertexIndexList[1] - 1].ToVector3();
-                        var point3 = mesh.Vertices[face.VertexIndexList[2] - 1].ToVector3();
+                        var pixels = new Vector4[face.VertexIndexList.Length];
 
-                        var normal = GetSurfaceNormal(point1, point2, point3);
-
-                        //if (normal.Z >= 0)
+                        for (int i = 0; i < face.VertexIndexList.Length; i++)
                         {
-                            var color = lighting.GetNecessaryColor(normal, penColor);
+                            pixels[i] = Project(mesh.Vertices[face.VertexIndexList[i] - 1], transformMatrix);
+                        }
 
-                            var pixels = new Vector4[face.VertexIndexList.Length];
+                        var normal = GetSurfaceNormal(
+                            new Vector3(pixels[0].X, pixels[0].Y, pixels[0].Z),
+                            new Vector3(pixels[1].X, pixels[1].Y, pixels[1].Z),
+                            new Vector3(pixels[2].X, pixels[2].Y, pixels[2].Z));
 
-                            for (int i = 0; i < face.VertexIndexList.Length; i++)
-                            {
-                                pixels[i] = Project(mesh.Vertices[face.VertexIndexList[i] - 1], transformMatrix);
-                            }
+                        if (normal.Z < 0)
+                        {
+                            var point1 = mesh.Vertices[face.VertexIndexList[0] - 1].ToVector3();
+                            var point2 = mesh.Vertices[face.VertexIndexList[1] - 1].ToVector3();
+                            var point3 = mesh.Vertices[face.VertexIndexList[2] - 1].ToVector3();
 
+                            var localNormal = GetSurfaceNormal(point1, point2, point3);
+                            var color = lighting.GetNecessaryColor(localNormal, penColor);
                             var sidePoints = new List<PixelInfo>();
 
                             for (int i = 0; i < pixels.Length - 1; i++)
