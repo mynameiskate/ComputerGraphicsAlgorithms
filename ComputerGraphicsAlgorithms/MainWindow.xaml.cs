@@ -24,7 +24,7 @@ namespace ComputerGraphicsAlgorithms
         Lighting lighting = new Lighting();
 
         // Temporary example of file name for parsing
-        string path = "african_head.obj";
+        string path = "diablo3_pose.obj";
         private int _scale = 0;
         private float _xPos = 1f;
         private float _yPos = 1f;

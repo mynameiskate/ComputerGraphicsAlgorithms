@@ -14,7 +14,8 @@ namespace GraphicsServices.RenderObjTypes
 
         public BmpColor GetNecessaryColor(Vector3 normal, BmpColor penColor)
         {
-            var mul = Vector3.Multiply(vector, normal);
+            var lightingVectorNormal = Vector3.Normalize(vector);
+            var mul = Vector3.Multiply(-lightingVectorNormal, normal);
             float k = (mul.X + mul.Y + mul.Z) * intensity;
 
             if (k >= 0 && k <= 1)
@@ -25,7 +26,7 @@ namespace GraphicsServices.RenderObjTypes
 
                 return BmpColor.FromArgb(255, (byte)r, (byte)g, (byte)b);
             }
-            else if (k < 0)
+            else if (k < 0 || Double.IsNaN(k))
             {
                 return BmpColor.FromArgb(255, 0, 0, 0);
             }

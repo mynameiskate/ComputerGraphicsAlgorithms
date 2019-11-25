@@ -86,7 +86,7 @@ namespace GraphicsServices
             {
                 sidePoints.Add(new PixelInfo(x0, y0, z0));
 
-                if (UpdateZBuffer(x1, y1, curZ))
+                if (UpdateZBuffer(x0, y0, curZ))
                 {
                     bmp[x0, y0] = color;
                 }
