@@ -45,7 +45,7 @@
             </xctk:IntegerUpDown.RenderTransform>
         </xctk:IntegerUpDown>
         <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="zPosUpdown" Width="50" Margin="1001,107,-308,437"
-            Value="1" RenderTransformOrigin="0.5,0.506" ValueChanged="zCameraPos_Changed">
+            Value="3" RenderTransformOrigin="0.5,0.506" ValueChanged="zCameraPos_Changed">
             <xctk:IntegerUpDown.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -56,11 +56,45 @@
         </xctk:IntegerUpDown>
         <Label Content="Axis" HorizontalAlignment="Left" Margin="824,150,-121,0"
             VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Height="39" Width="40"/>
-        <RadioButton Name="xAxisRadioBtn" Content="X" IsChecked="True" HorizontalAlignment="Left"
+        <RadioButton Name="xAxisRadioBtn" Content="X" HorizontalAlignment="Left"
                      Margin="886,156,-176,0" VerticalAlignment="Top" Checked="XAxisRadioBtn_Checked" Width="33"/>
-        <RadioButton x:Name="yAxisRadioBtn" Content="Y" HorizontalAlignment="Left"
+        <RadioButton x:Name="yAxisRadioBtn" Content="Y" IsChecked="True" HorizontalAlignment="Left"
                      Margin="945,156,-235,0" VerticalAlignment="Top" Checked="YAxisRadioBtn_Checked" Width="33"/>
         <RadioButton x:Name="zAxisRadioBtn" Content="Z" HorizontalAlignment="Left"
                      Margin="1007,156,-297,0" VerticalAlignment="Top" Checked="ZAxisRadioBtn_Checked" Width="33"/>
+        <Label Content="Camera position" HorizontalAlignment="Left" Margin="761,104,-113,0"
+            VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="98"/>
+        <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="xLightPosUpdown" Width="50" Margin="874,221,-178,325"
+            Value="1" RenderTransformOrigin="0.5,0.506" ValueChanged="xLightPos_Changed">
+            <xctk:IntegerUpDown.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <TranslateTransform X="0.003" Y="0.007"/>
+                </TransformGroup>
+            </xctk:IntegerUpDown.RenderTransform>
+        </xctk:IntegerUpDown>
+        <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="yLightPosUpdown" Width="50" Margin="942,221,-246,325"
+            Value="0" RenderTransformOrigin="0.5,0.506" ValueChanged="yLightPos_Changed">
+            <xctk:IntegerUpDown.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <TranslateTransform X="0.003" Y="0.007"/>
+                </TransformGroup>
+            </xctk:IntegerUpDown.RenderTransform>
+        </xctk:IntegerUpDown>
+        <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="zLightPosUpdown" Width="50" Margin="1008,222,-312,323"
+            Value="0" RenderTransformOrigin="0.5,0.506" ValueChanged="zLightPos_Changed">
+            <xctk:IntegerUpDown.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <TranslateTransform X="0.003" Y="0.007"/>
+                </TransformGroup>
+            </xctk:IntegerUpDown.RenderTransform>
+        </xctk:IntegerUpDown>
+        <Label Content="Light position" HorizontalAlignment="Left" Margin="773,218,-113,0"
+            VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="86"/>
     </Grid>
 </Window>

@@ -30,6 +30,7 @@ namespace ComputerGraphicsAlgorithms
         private AxisType axis = AxisType.X;
         private int dpiX;
         private int dpiY;
+        private Vector3 lightingVector = new Vector3(0, 0, 0);
 
         public int CurrentScale
         {
@@ -43,6 +44,7 @@ namespace ComputerGraphicsAlgorithms
         public MainWindow()
         {
             InitializeComponent();
+            GetDPI();
         }
 
         private void LoadFile(string fileName)
@@ -74,7 +76,7 @@ namespace ComputerGraphicsAlgorithms
         {
             WriteableBitmap bmp = new WriteableBitmap((int)image.Width, (int)image.Height,
                 dpiX, dpiY, PixelFormats.Bgra32, null);
-            renderer = new Renderer(bmp);
+            renderer = new Renderer(bmp, lightingVector);
 
             //mesh.Rotation = new Vector3(mesh.Rotation.X, mesh.Rotation.Y - 0.01f, mesh.Rotation.Z);
             mesh.Scale = _scale;
@@ -158,8 +160,12 @@ namespace ComputerGraphicsAlgorithms
         private void YAxisRadioBtn_Checked(object sender, RoutedEventArgs e)
         {
             axis = AxisType.Y;
-            xAxisRadioBtn.IsChecked = false;
-            zAxisRadioBtn.IsChecked = false;
+
+            if (zAxisRadioBtn != null)
+            {
+                xAxisRadioBtn.IsChecked = false;
+                zAxisRadioBtn.IsChecked = false;
+            }
         }
 
         private void ZAxisRadioBtn_Checked(object sender, RoutedEventArgs e)
@@ -167,6 +173,36 @@ namespace ComputerGraphicsAlgorithms
             axis = AxisType.Z;
             xAxisRadioBtn.IsChecked = false;
             yAxisRadioBtn.IsChecked = false;
+        }
+
+        private void xLightPos_Changed(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            var value = xLightPosUpdown.Value;
+
+            if (value != null)
+            {
+                lightingVector.X = (float)value;
+            }
+        }
+
+        private void yLightPos_Changed(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            var value = yLightPosUpdown.Value;
+
+            if (value != null)
+            {
+                lightingVector.Y = (float)value;
+            }
+        }
+
+        private void zLightPos_Changed(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            var value = zLightPosUpdown.Value;
+
+            if (value != null)
+            {
+                lightingVector.Z = (float)value;
+            }
         }
     }
 }

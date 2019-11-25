@@ -17,7 +17,7 @@ namespace GraphicsServices.GraphicObjTypes
             Width = width;
             Height = height;
             buffer = new double[width * height];
-            buffer.Populate(2d);
+            buffer.Populate(double.MaxValue);
         }
 
         private int GetAddress(int x, int y)

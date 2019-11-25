@@ -21,13 +21,15 @@ namespace GraphicsServices
         private BmpColor bgColor = Color.DarkOliveGreen.ToMedia();
         public Bgr24Bitmap bmp { get; protected set; }
         private ZBuffer zBuf;
+        private Vector3 lightingVector;
 
-        public Renderer(WriteableBitmap baseBitmap)
+        public Renderer(WriteableBitmap baseBitmap, Vector3 lightingVector)
         {
             bmp = new Bgr24Bitmap(baseBitmap);
             zBuf = new ZBuffer(baseBitmap.PixelWidth, baseBitmap.PixelHeight);
             // 4 stands for RGBA
             backBuffer = new byte[baseBitmap.PixelWidth * baseBitmap.PixelHeight * 4];
+            this.lightingVector = lightingVector;
         }
 
         public void Clear()
@@ -46,7 +48,7 @@ namespace GraphicsServices
         }
 
         // Bresenham's algorithm
-        public List<PixelInfo> GetSides(Vector4 point0, Vector4 point1, ZBuffer zBuf)
+        public List<PixelInfo> GetSides(Vector4 point0, Vector4 point1, ZBuffer zBuf, BmpColor color)
         {
             int x0 = (int)point0.X;
             int y0 = (int)point0.Y;
@@ -74,10 +76,10 @@ namespace GraphicsServices
 
             var sidePoints = new List<PixelInfo>();
             sidePoints.Add(new PixelInfo(x1, y1, z1));
- 
+
             if (UpdateZBuffer(x1, y1, curZ))
             {
-                bmp[x1, y1] = penColor;
+                bmp[x1, y1] = color;
             }
 
             while (x0 != x1 || y0 != y1)
@@ -86,7 +88,7 @@ namespace GraphicsServices
 
                 if (UpdateZBuffer(x1, y1, curZ))
                 {
-                    bmp[x0, y0] = penColor;
+                    bmp[x0, y0] = color;
                 }
 
                 int error2 = error * 2;
@@ -140,15 +142,15 @@ namespace GraphicsServices
 
                 Parallel.ForEach(mesh.Faces, (face) =>
                     {
-                        //var point1 = mesh.Vertices[face.VertexIndexList[0] - 1].ToVector3();
-                        //var point2 = mesh.Vertices[face.VertexIndexList[1] - 1].ToVector3();
-                        //var point3 = mesh.Vertices[face.VertexIndexList[0] - 1].ToVector3();
+                       var point1 = mesh.Vertices[face.VertexIndexList[0] - 1].ToVector3();
+                        var point2 = mesh.Vertices[face.VertexIndexList[1] - 1].ToVector3();
+                        var point3 = mesh.Vertices[face.VertexIndexList[2] - 1].ToVector3();
 
-                        //var normal = GetSurfaceNormal(point1, point2, point3);
+                        var normal = GetSurfaceNormal(point1, point2, point3);
 
                         //if (normal.Z >= 0)
                         {
-                            Vector3 lightingVector = new Vector3(0, 0, -1);
+                            var color = GetNecessaryColor(normal);
 
                             var pixels = new Vector4[face.VertexIndexList.Length];
 
@@ -161,21 +163,21 @@ namespace GraphicsServices
 
                             for (int i = 0; i < pixels.Length - 1; i++)
                             {
-                                sidePoints.AddRange(GetSides(pixels[i], pixels[i + 1], zBuf));
+                                sidePoints.AddRange(GetSides(pixels[i], pixels[i + 1], zBuf, color));
                             }
 
-                            sidePoints.AddRange(GetSides(pixels[0], pixels[pixels.Length - 1], zBuf));
+                            sidePoints.AddRange(GetSides(pixels[0], pixels[pixels.Length - 1], zBuf, color));
 
-                            Rasterize(sidePoints);
+                            Rasterize(sidePoints, color);
                         }
                         //}
                     }
                 );
-                
+
             }
         }
 
-        private void Rasterize(List<PixelInfo> sidePoints)
+        private void Rasterize(List<PixelInfo> sidePoints, BmpColor color)
         {
             int minY, maxY;
             PixelInfo xStartPixel, xEndPixel;
@@ -194,13 +196,13 @@ namespace GraphicsServices
 
                     if (UpdateZBuffer(x, y, curZ))
                     {
-                        bmp[x, y] = penColor;
+                        bmp[x, y] = color;
                     }
                 }
             }
         }
 
-        private void GetMinMaxY (List<PixelInfo> sidePoints, out int min, out int max)
+        private void GetMinMaxY(List<PixelInfo> sidePoints, out int min, out int max)
         {
             var list = sidePoints.OrderBy(x => x.Y).ToList();
             min = list[0].Y;
@@ -236,7 +238,7 @@ namespace GraphicsServices
         {
             if (x > 0 && x < zBuf.Width && y > 0 && y < zBuf.Height)
             {
-                if (z <= zBuf[x, y] && z > 0 && z < 1)
+                if (z <= zBuf[x, y]) // && z > 0 && z < 1
                 {
                     zBuf[x, y] = z;
 
@@ -267,8 +269,45 @@ namespace GraphicsServices
 
         private Vector3 GetSurfaceNormal(Vector3 a, Vector3 b, Vector3 c)
         {
-            var dir = Vector3.Cross(b - a, c - a);
+            var ab = Vector3.Subtract(b, a);
+            var ac = Vector3.Subtract(c, a);
+            var dir = Vector3.Cross(ab, ac);
+
             return Vector3.Normalize(dir);
+        }
+
+        public BmpColor GetNecessaryColor(Vector3 normal) {
+            var mul = Vector3.Multiply(lightingVector, normal);
+            float k = mul.X + mul.Y + mul.Z;
+
+            if (k >= 0 && k <=1)
+            {
+                float r = penColor.R * k;
+                float g = penColor.G * k;
+                float b = penColor.B * k;
+
+                return BmpColor.FromArgb(255, (byte)r, (byte)g, (byte)b);
+            } else if (k < 0)
+            {
+                return BmpColor.FromArgb(255, 0, 0, 0);
+            } else
+            {
+                return penColor;
+            }
+        }
+
+        public static Color GetAverageColor(Color color1, Color color2, Color color3)
+        {
+            int sumR = color1.R + color2.R + color3.R;
+            int sumG = color1.G + color2.G + color3.G;
+            int sumB = color1.B + color2.B + color3.B;
+            int sumA = color1.A + color2.A + color3.A;
+            byte r = (byte)Math.Round((double)sumR / 3);
+            byte g = (byte)Math.Round((double)sumG / 3);
+            byte b = (byte)Math.Round((double)sumB / 3);
+            byte a = (byte)Math.Round((double)sumA / 3);
+
+            return Color.FromArgb(a, r, g, b);
         }
     }
 }
