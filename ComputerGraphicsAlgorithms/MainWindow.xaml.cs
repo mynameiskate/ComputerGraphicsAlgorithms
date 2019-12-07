@@ -1,7 +1,9 @@
-﻿using GraphicsServices;
-using GraphicsServices.GraphicObjTypes;
+﻿using ComputerGraphicsAlgorithms.ViewModels;
+using GraphicsServices;
+using GraphicsServices.Lighting;
 using GraphicsServices.RenderObjTypes;
 using System;
+using System.ComponentModel;
 using System.IO;
 using System.Numerics;
 using System.Reflection;
@@ -9,7 +11,6 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Camera = GraphicsServices.RenderObjTypes.Camera;
-using Lighting = GraphicsServices.RenderObjTypes.Lighting;
 
 namespace ComputerGraphicsAlgorithms
 {
@@ -18,33 +19,33 @@ namespace ComputerGraphicsAlgorithms
     /// </summary>
     public partial class MainWindow : Window
     {
+        MainPageViewModel vm;
         Renderer renderer;
         Camera camera = new Camera();
         RenderObj mesh;
-        Lighting lighting = new Lighting();
+        PhongLighting lighting = new PhongLighting
+        {
+            AmbientColor = new Vector3(100, 0, 100),
+            DiffuseColor = new Vector3(0, 0, 255),
+            SpecularColor = new Vector3(255, 255, 255),
+            GlossCoefficient = 0.6f,
+            Ka = new Vector3(0.1f),
+            Kd = new Vector3(0.1f),
+            Ks = new Vector3(0.1f)
+        };
 
         // Temporary example of file name for parsing
         string path = "diablo3_pose.obj";
-        private int _scale = 0;
-        private float _xPos = 1f;
-        private float _yPos = 1f;
-        private float _zPos = 1f;
         private AxisType axis = AxisType.X;
         private int dpiX;
         private int dpiY;
 
-        public int CurrentScale
-        {
-            get { return _scale; }
-            set
-            {
-                _scale = value;
-            }
-        }
-
         public MainWindow()
         {
             InitializeComponent();
+            vm = new MainPageViewModel();
+            DataContext = vm;
+            vm.PropertyChanged += view_PropertyChanged;
             GetDPI();
         }
 
@@ -54,16 +55,22 @@ namespace ComputerGraphicsAlgorithms
             var path = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\", "examples", fileName));
             parser.LoadObj(path);
 
-            camera.Position = new Vector3(_xPos, _yPos, _zPos);
+            camera.Position = new Vector3(vm.XPos, vm.YPos, vm.ZPos);
             camera.Target = Vector3.Zero;
 
-            mesh = new RenderObj(parser.VertexList.Count, parser.FaceList.Count);
+            mesh = new RenderObj(parser.VertexList.Count, parser.FaceList.Count, parser.NormalList.Count);
+
             for (var i = 0; i < parser.VertexList.Count; i++)
             {
                 mesh.Vertices[i] = parser.VertexList[i].ToVector4();
             }
 
             mesh.Faces = parser.FaceList.ToArray();
+
+            for (var i = 0; i < parser.NormalList.Count; i++)
+            {
+                mesh.Normals[i] = parser.NormalList[i].ToVector();
+            }
 
             UpdateAnimation();
         }
@@ -82,11 +89,13 @@ namespace ComputerGraphicsAlgorithms
 
             WriteableBitmap bmp = new WriteableBitmap((int)image.Width, (int)image.Height,
                 dpiX, dpiY, PixelFormats.Bgra32, null);
+            lighting.Vector = new Vector3(vm.XLightPos, vm.YLightPos, vm.ZLightPos);
             renderer = new Renderer(bmp, lighting);
 
             //mesh.Rotation = new Vector3(mesh.Rotation.X, mesh.Rotation.Y - 0.01f, mesh.Rotation.Z);
-            mesh.Scale = _scale;
-            camera.Position = new Vector3(_xPos, _yPos, _zPos);
+            mesh.Scale = vm.Scale;
+            camera.Position = new Vector3(vm.XPos, vm.YPos, vm.ZPos);
+            lighting.ViewVector = camera.Position;
 
             /*if (mesh.Direction < 0)
             {
@@ -103,6 +112,11 @@ namespace ComputerGraphicsAlgorithms
             image.Source = renderer.bmp.Source;
         }
 
+        private void view_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            UpdateAnimation();
+        }
+
         private void GetDPI()
         {
             var dpiXProperty = typeof(SystemParameters).GetProperty("DpiX", BindingFlags.NonPublic | BindingFlags.Static);
@@ -110,50 +124,6 @@ namespace ComputerGraphicsAlgorithms
 
             dpiX = (int)dpiXProperty.GetValue(null, null);
             dpiY = (int)dpiYProperty.GetValue(null, null);
-        }
-
-        private void ScaleChanged(Object sender, EventArgs e)
-        {
-            var value = myUpDownControl.Value;
-
-            if (value != null)
-            {
-                _scale = (int)myUpDownControl.Value;
-                UpdateAnimation();
-            }
-        }
-
-        private void xCameraPos_Changed(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            var value = xPosUpdown.Value;
-
-            if (value != null)
-            {
-                _xPos = (int)value;
-                UpdateAnimation();
-            }
-        }
-
-        private void yCameraPos_Changed(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            var value = yPosUpdown.Value;
-
-            if (value != null)
-            {
-                _yPos = (int)value;
-                UpdateAnimation();
-            }
-        }
-
-        private void zCameraPos_Changed(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            var value = zPosUpdown.Value;
-
-            if (value != null)
-            {
-                _zPos = (int)value;
-                UpdateAnimation();
-            }
         }
 
         private void XAxisRadioBtn_Checked(object sender, RoutedEventArgs e)
@@ -186,50 +156,6 @@ namespace ComputerGraphicsAlgorithms
             xAxisRadioBtn.IsChecked = false;
             yAxisRadioBtn.IsChecked = false;
             UpdateAnimation();
-        }
-
-        private void xLightPos_Changed(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            var value = xLightPosUpdown.Value;
-
-            if (value != null)
-            {
-                lighting.vector.X = (float)value;
-                UpdateAnimation();
-            }
-        }
-
-        private void yLightPos_Changed(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            var value = yLightPosUpdown.Value;
-
-            if (value != null)
-            {
-                lighting.vector.Y = (float)value;
-                UpdateAnimation();
-            }
-        }
-
-        private void zLightPos_Changed(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            var value = zLightPosUpdown.Value;
-
-            if (value != null)
-            {
-                lighting.vector.Z = (float)value;
-                UpdateAnimation();
-            }
-        }
-
-        private void lightIntensity_Changed(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            var value = lightIntensityUpdown.Value;
-
-            if (value != null)
-            {
-                lighting.intensity = (float)value;
-                UpdateAnimation();
-            }
         }
     }
 }

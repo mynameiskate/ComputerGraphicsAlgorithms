@@ -4,7 +4,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ComputerGraphicsAlgorithms"
         mc:Ignorable="d"
         Loaded="Window_Loaded"
         Title="MainWindow" Height="600" Width="1106">
@@ -13,7 +12,7 @@
         <Label Content="Settings" HorizontalAlignment="Left" Margin="824,17,-166,0" VerticalAlignment="Top" FontSize="16" IsEnabled="False" Width="85"/>
         <Label Content="Scale" HorizontalAlignment="Left" Margin="812,53,-116,0" VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="47"/>
         <xctk:IntegerUpDown Minimum="1" Maximum="200" Name="myUpDownControl" Margin="873,55,-247,489"
-                            Value="1" RenderTransformOrigin="0.5,0.506" ValueChanged="ScaleChanged">
+            RenderTransformOrigin="0.5,0.506" Value="{Binding Path=Scale, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <xctk:IntegerUpDown.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -25,7 +24,7 @@
         <Label Content="Camera position" HorizontalAlignment="Left" Margin="761,104,-116,0"
                VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="98"/>
         <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="xPosUpdown" Width="50" Margin="874,108,-181,436"
-            Value="1" RenderTransformOrigin="0.5,0.506" ValueChanged="xCameraPos_Changed">
+             RenderTransformOrigin="0.5,0.506" Value="{Binding Path=XPos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <xctk:IntegerUpDown.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -35,7 +34,7 @@
             </xctk:IntegerUpDown.RenderTransform>
         </xctk:IntegerUpDown>
         <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="yPosUpdown" Width="50" Margin="937,108,-244,436"
-            Value="1" RenderTransformOrigin="0.5,0.506" ValueChanged="yCameraPos_Changed">
+            RenderTransformOrigin="0.5,0.506" Value="{Binding Path=YPos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <xctk:IntegerUpDown.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -45,7 +44,7 @@
             </xctk:IntegerUpDown.RenderTransform>
         </xctk:IntegerUpDown>
         <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="zPosUpdown" Width="50" Margin="1001,107,-308,437"
-            Value="3" RenderTransformOrigin="0.5,0.506" ValueChanged="zCameraPos_Changed">
+            RenderTransformOrigin="0.5,0.506" Value="{Binding Path=ZPos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <xctk:IntegerUpDown.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -65,7 +64,7 @@
         <Label Content="Camera position" HorizontalAlignment="Left" Margin="761,104,-113,0"
             VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="98"/>
         <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="xLightPosUpdown" Width="50" Margin="874,221,-178,325"
-            Value="1" RenderTransformOrigin="0.5,0.506" ValueChanged="xLightPos_Changed">
+            RenderTransformOrigin="0.5,0.506" Value="{Binding Path=XLightPos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <xctk:IntegerUpDown.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -75,7 +74,7 @@
             </xctk:IntegerUpDown.RenderTransform>
         </xctk:IntegerUpDown>
         <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="yLightPosUpdown" Width="50" Margin="942,221,-246,325"
-            Value="0" RenderTransformOrigin="0.5,0.506" ValueChanged="yLightPos_Changed">
+            RenderTransformOrigin="0.5,0.506" Value="{Binding Path=YLightPos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <xctk:IntegerUpDown.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -85,7 +84,7 @@
             </xctk:IntegerUpDown.RenderTransform>
         </xctk:IntegerUpDown>
         <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="zLightPosUpdown" Width="50" Margin="1008,222,-312,323"
-            Value="0" RenderTransformOrigin="0.5,0.506" ValueChanged="zLightPos_Changed">
+            RenderTransformOrigin="0.5,0.506" Value="{Binding Path=ZLightPos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <xctk:IntegerUpDown.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -99,7 +98,7 @@
         <Label Content="Light Intensity" HorizontalAlignment="Left" Margin="778,281,-118,0"
             VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="86"/>
         <xctk:DecimalUpDown Minimum="0" Maximum="10" x:Name="lightIntensityUpdown" Width="50" Margin="874,284,-178,257"
-            Value="1" RenderTransformOrigin="0.5,0.506" ValueChanged="lightIntensity_Changed">
+            RenderTransformOrigin="0.5,0.506" Value="{Binding Path=Intensity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <xctk:DecimalUpDown.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -108,5 +107,8 @@
                 </TransformGroup>
             </xctk:DecimalUpDown.RenderTransform>
         </xctk:DecimalUpDown>
+        <!--<Label Content="Phong shading" HorizontalAlignment="Left" Margin="766,341,-118,0"
+            VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="98"/>
+        <CheckBox Content="On" HorizontalAlignment="Left" Margin="886,348,-211,0" VerticalAlignment="Top" RenderTransformOrigin="6.479,9.065" Checked="CheckBox_Checked"/>-->
     </Grid>
 </Window>

@@ -18,7 +18,7 @@ namespace GraphicsServices
     public class Renderer
     {
         private byte[] backBuffer;
-        private BmpColor bgColor = Color.DarkOliveGreen.ToMedia();
+        private BmpColor bgColor = Color.LightSlateGray.ToMedia();
         public Bgr24Bitmap bmp { get; protected set; }
         private ZBuffer zBuf;
         private BaseLighting lighting;

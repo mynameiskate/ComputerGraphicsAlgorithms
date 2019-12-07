@@ -6,7 +6,6 @@ namespace GraphicsServices.Lighting
 {
     public class PhongLighting : BaseLighting
     {
-        public Vector3 LightVector { get; set; }
         public Vector3 ViewVector { get; set; }
 
         #region Background lighting parameters
@@ -30,7 +29,7 @@ namespace GraphicsServices.Lighting
         // 𝐼𝑑 = 𝑘𝑑 ∙ (𝑁 ∙ 𝐿) ∙ 𝑖𝑑
         private Vector3 GetDiffusedLightVector(Vector3 normal)
         {
-            return Kd * Math.Max(Vector3.Dot(normal, LightVector), 0) * DiffuseColor;
+            return Kd * Math.Max(Vector3.Dot(normal, Vector), 0) * DiffuseColor;
         }
         #endregion
 
@@ -43,7 +42,7 @@ namespace GraphicsServices.Lighting
         private Vector3 GetSpecularLightVector(Vector3 normal)
         {
             // 𝑅 = 𝐿 − 2 ∙ (𝐿 ∙ 𝑁) ∙ 𝑁
-            var reflectionVector = Vector3.Normalize(Vector3.Reflect(LightVector, normal));
+            var reflectionVector = Vector3.Normalize(Vector3.Reflect(Vector, normal));
             return Ks * (float)Math.Pow(Math.Max(Vector3.Dot(reflectionVector, ViewVector), 0), GlossCoefficient) * SpecularColor;
         }
         #endregion
