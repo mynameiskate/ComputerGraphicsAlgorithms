@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Numerics;
-using System.Text;
-using System.Windows.Media;
 using BmpColor = System.Windows.Media.Color;
 
 namespace GraphicsServices.RenderObjTypes
@@ -26,7 +23,7 @@ namespace GraphicsServices.RenderObjTypes
 
                 return BmpColor.FromArgb(255, (byte)r, (byte)g, (byte)b);
             }
-            else if (k < 0 || Double.IsNaN(k))
+            else if (k < 0 || double.IsNaN(k))
             {
                 return BmpColor.FromArgb(255, 0, 0, 0);
             }
@@ -36,7 +33,7 @@ namespace GraphicsServices.RenderObjTypes
             }
         }
 
-        public static Color GetAverageColor(Color color1, Color color2, Color color3)
+        private static BmpColor GetAverageColor(BmpColor color1, BmpColor color2, BmpColor color3)
         {
             int sumR = color1.R + color2.R + color3.R;
             int sumG = color1.G + color2.G + color3.G;
@@ -47,7 +44,7 @@ namespace GraphicsServices.RenderObjTypes
             byte b = (byte)Math.Round((double)sumB / 3);
             byte a = (byte)Math.Round((double)sumA / 3);
 
-            return Color.FromArgb(a, r, g, b);
+            return BmpColor.FromArgb(a, r, g, b);
         }
     }
 }
