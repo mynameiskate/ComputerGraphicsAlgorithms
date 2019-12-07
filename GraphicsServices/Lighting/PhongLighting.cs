@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Drawing;
 using System.Numerics;
 
-namespace GraphicsServices.GraphicObjTypes
+namespace GraphicsServices.Lighting
 {
-    public class LightingParameters
+    public class PhongLighting : BaseLighting
     {
         public Vector3 LightVector { get; set; }
         public Vector3 ViewVector { get; set; }
@@ -47,11 +48,17 @@ namespace GraphicsServices.GraphicObjTypes
         }
         #endregion
 
-        public Vector3 GetPhongLightVector(Vector3 normal)
+        private Vector3 GetPhongLightVector(Vector3 normal)
         {
             return BackgroundLightVector
                 + GetDiffusedLightVector(normal)
                 + GetSpecularLightVector(normal);
+        }
+
+        public Color GetColorForPoint(Vector3 normal)
+        {
+            var lighVector = GetPhongLightVector(normal);
+            return Color.FromArgb(255, (byte)lighVector.X, (byte)lighVector.Y, (byte)lighVector.Z);
         }
     }
 }

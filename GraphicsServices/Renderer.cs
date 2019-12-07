@@ -11,6 +11,7 @@ using Camera = GraphicsServices.RenderObjTypes.Camera;
 using Point = System.Drawing.Point;
 using BmpColor = System.Windows.Media.Color;
 using System.Threading.Tasks;
+using GraphicsServices.Lighting;
 
 namespace GraphicsServices
 {
@@ -21,9 +22,9 @@ namespace GraphicsServices
         private BmpColor bgColor = Color.DarkOliveGreen.ToMedia();
         public Bgr24Bitmap bmp { get; protected set; }
         private ZBuffer zBuf;
-        private Lighting lighting;
+        private BaseLighting lighting;
 
-        public Renderer(WriteableBitmap baseBitmap, Lighting lighting)
+        public Renderer(WriteableBitmap baseBitmap, BaseLighting lighting)
         {
             bmp = new Bgr24Bitmap(baseBitmap);
             zBuf = new ZBuffer(baseBitmap.PixelWidth, baseBitmap.PixelHeight);
@@ -161,7 +162,7 @@ namespace GraphicsServices
                             var point3 = mesh.Vertices[face.VertexIndexList[2] - 1].ToVector3();
 
                             var localNormal = GetSurfaceNormal(point1, point2, point3);
-                            var color = lighting.GetNecessaryColor(localNormal, penColor);
+                            var color = lighting.GetColorForPoint(localNormal, penColor);
                             var sidePoints = new List<PixelInfo>();
 
                             for (int i = 0; i < pixels.Length - 1; i++)
