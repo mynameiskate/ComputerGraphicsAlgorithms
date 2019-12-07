@@ -5,14 +5,25 @@ namespace GraphicsServices.Lighting
 {
     public class BaseLighting
     {
-        public Vector3 vector = new Vector3(0, 0, 0);
-        public float intensity = 1;
+        public Vector3 Vector { get; set; } = new Vector3(0, 0, 0);
+        public float Intensity { get; set; } = 1;
 
-        public BmpColor GetColorForPoint(Vector3 normal, BmpColor penColor)
+        private BmpColor penColor = BmpColor.FromArgb(255, 0, 0, 0);
+
+        public BaseLighting()
         {
-            var lightingVectorNormal = Vector3.Normalize(vector);
+        }
+
+        public BaseLighting(BmpColor color)
+        {
+            penColor = color;
+        }
+
+        public virtual BmpColor GetColorForPoint(Vector3 normal)
+        {
+            var lightingVectorNormal = Vector3.Normalize(Vector);
             var mul = Vector3.Multiply(-lightingVectorNormal, normal);
-            float k = (mul.X + mul.Y + mul.Z) * intensity;
+            float k = (mul.X + mul.Y + mul.Z) * Intensity;
 
             if (k >= 0 && k <= 1)
             {

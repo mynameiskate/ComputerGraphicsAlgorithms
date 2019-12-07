@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Drawing;
 using System.Numerics;
+using BmpColor = System.Windows.Media.Color;
 
 namespace GraphicsServices.Lighting
 {
@@ -55,10 +55,10 @@ namespace GraphicsServices.Lighting
                 + GetSpecularLightVector(normal);
         }
 
-        public Color GetColorForPoint(Vector3 normal)
+        public override BmpColor GetColorForPoint(Vector3 normal)
         {
             var lighVector = GetPhongLightVector(normal);
-            return Color.FromArgb(255, (byte)lighVector.X, (byte)lighVector.Y, (byte)lighVector.Z);
+            return BmpColor.FromArgb(255, (byte)lighVector.X, (byte)lighVector.Y, (byte)lighVector.Z);
         }
     }
 }

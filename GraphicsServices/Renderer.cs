@@ -18,7 +18,6 @@ namespace GraphicsServices
     public class Renderer
     {
         private byte[] backBuffer;
-        private BmpColor penColor = Color.DarkOrange.ToMedia();
         private BmpColor bgColor = Color.DarkOliveGreen.ToMedia();
         public Bgr24Bitmap bmp { get; protected set; }
         private ZBuffer zBuf;
@@ -38,24 +37,14 @@ namespace GraphicsServices
             bmp.Clear(bgColor);
         }
 
-        // Choosing only points that fit on screen
-        public void DrawPoints(IEnumerable<Vector3> points)
-        {
-            var filteredPoints = points
-                .Where(point => (point.X >= 0) && (point.X < bmp.PixelWidth)
-                    && (point.Y >= 0) && (point.Y < bmp.PixelHeight))
-                .Select((point) => new Point((int)point.X, (int)point.Y));
-            DrawPixels(filteredPoints, penColor);
-        }
-
         // Bresenham's algorithm
-        public List<PixelInfo> GetSides(Vector4 point0, Vector4 point1, ZBuffer zBuf, BmpColor color)
+        public List<PixelInfo> GetSides(PixelInfo point0, PixelInfo point1, ZBuffer zBuf)
         {
-            int x0 = (int)point0.X;
-            int y0 = (int)point0.Y;
+            int x0 = point0.X;
+            int y0 = point0.Y;
             float z0 = point0.Z;
-            int x1 = (int)point1.X;
-            int y1 = (int)point1.Y;
+            int x1 = point1.X;
+            int y1 = point1.Y;
             float z1 = point0.Z;
 
             x0 = x0 < 0 ? 0 : x0;
@@ -66,30 +55,32 @@ namespace GraphicsServices
             int deltaX = Math.Abs(x1 - x0);
             int deltaY = Math.Abs(y1 - y0);
             float deltaZ = Math.Abs(z1 - z0);
+            Vector3 deltaVn = (point1.Vn - point0.Vn) / deltaY;
             int signX = x0 < x1 ? 1 : -1;
             int signY = y0 < y1 ? 1 : -1;
             float signZ = z0 < z1 ? 1 : -1;
 
-            float curZ = point1.Z;
+            float curZ = point0.Z;
             float z3 = deltaZ / deltaY;
+            Vector3 curVn = point0.Vn;
 
             int error = deltaX - deltaY;
 
             var sidePoints = new List<PixelInfo>();
-            sidePoints.Add(new PixelInfo(x1, y1, z1));
+            sidePoints.Add(new PixelInfo(x1, y1, z1, point1.Vn));
 
             if (UpdateZBuffer(x1, y1, curZ))
             {
-                bmp[x1, y1] = color;
+                bmp[x1, y1] = lighting.GetColorForPoint(point1.Vn);
             }
 
             while (x0 != x1 || y0 != y1)
             {
-                sidePoints.Add(new PixelInfo(x0, y0, z0));
+                sidePoints.Add(new PixelInfo(x0, y0, z0, curVn));
 
                 if (UpdateZBuffer(x0, y0, curZ))
                 {
-                    bmp[x0, y0] = color;
+                    bmp[x0, y0] = lighting.GetColorForPoint(point0.Vn);
                 }
 
                 int error2 = error * 2;
@@ -104,6 +95,7 @@ namespace GraphicsServices
                     error += deltaX;
                     y0 += signY;
                     curZ += signZ * z3;
+                    curVn += deltaVn;
                 }
             }
 
@@ -142,45 +134,58 @@ namespace GraphicsServices
                 var transformMatrix = worldMatrix * viewMatrix * projectionMatrix;
 
                 Parallel.ForEach(mesh.Faces, (face) =>
+                {
+                    var pixels = new Vector4[face.VertexIndexList.Length];
+                    var normals = new Vector3[face.VertexNormalIndexList.Length];
+
+                    for (int i = 0; i < face.VertexIndexList.Length; i++)
                     {
-                        var pixels = new Vector4[face.VertexIndexList.Length];
-
-                        for (int i = 0; i < face.VertexIndexList.Length; i++)
-                        {
-                            pixels[i] = Project(mesh.Vertices[face.VertexIndexList[i] - 1], transformMatrix);
-                        }
-
-                        var normal = GetSurfaceNormal(
-                            new Vector3(pixels[0].X, pixels[0].Y, pixels[0].Z),
-                            new Vector3(pixels[1].X, pixels[1].Y, pixels[1].Z),
-                            new Vector3(pixels[2].X, pixels[2].Y, pixels[2].Z));
-
-                        if (normal.Z < 0)
-                        {
-                            var point1 = mesh.Vertices[face.VertexIndexList[0] - 1].ToVector3();
-                            var point2 = mesh.Vertices[face.VertexIndexList[1] - 1].ToVector3();
-                            var point3 = mesh.Vertices[face.VertexIndexList[2] - 1].ToVector3();
-
-                            var localNormal = GetSurfaceNormal(point1, point2, point3);
-                            var color = lighting.GetColorForPoint(localNormal, penColor);
-                            var sidePoints = new List<PixelInfo>();
-
-                            for (int i = 0; i < pixels.Length - 1; i++)
-                            {
-                                sidePoints.AddRange(GetSides(pixels[i], pixels[i + 1], zBuf, color));
-                            }
-
-                            sidePoints.AddRange(GetSides(pixels[0], pixels[pixels.Length - 1], zBuf, color));
-
-                            Rasterize(sidePoints, color);
-                        }
+                        pixels[i] = Project(mesh.Vertices[face.VertexIndexList[i] - 1], transformMatrix);
                     }
-                );
+
+                    for (int i = 0; i < face.VertexNormalIndexList.Length; i++)
+                    {
+                        normals[i] = Vector3.Normalize(Vector3.TransformNormal(mesh.Normals[face.VertexNormalIndexList[i] - 1], worldMatrix));
+                    }
+
+                    var normal = GetSurfaceNormal(
+                        new Vector3(pixels[0].X, pixels[0].Y, pixels[0].Z),
+                        new Vector3(pixels[1].X, pixels[1].Y, pixels[1].Z),
+                        new Vector3(pixels[2].X, pixels[2].Y, pixels[2].Z));
+
+                    if (normal.Z < 0)
+                    {
+                        var point1 = mesh.Vertices[face.VertexIndexList[0] - 1].ToVector3();
+                        var point2 = mesh.Vertices[face.VertexIndexList[1] - 1].ToVector3();
+                        var point3 = mesh.Vertices[face.VertexIndexList[2] - 1].ToVector3();
+
+                        // var localNormal = GetSurfaceNormal(point1, point2, point3);
+                        // var color = lighting.GetColorForPoint(localNormal);
+                        var sidePoints = new List<PixelInfo>();
+
+                        for (int i = 0; i < pixels.Length - 1; i++)
+                        {
+                            sidePoints.AddRange(GetSides(
+                                new PixelInfo { X = (int)pixels[i].X, Y = (int)pixels[i].Y, Z = pixels[i].Z, Vn = normals[i]},
+                                new PixelInfo { X = (int)pixels[i + 1].X, Y = (int)pixels[i + 1].Y, Z = pixels[i + 1].Z, Vn = normals[i + 1] },
+                                zBuf
+                            ));
+                        }
+
+                        sidePoints.AddRange(GetSides(
+                            new PixelInfo { X = (int)pixels[0].X, Y = (int)pixels[0].Y, Z = pixels[0].Z, Vn = normals[0] },
+                            new PixelInfo { X = (int)pixels[pixels.Length - 1].X, Y = (int)pixels[pixels.Length - 1].Y, Z = pixels[pixels.Length - 1].Z, Vn = normals[pixels.Length - 1] },
+                            zBuf
+                        ));
+
+                        Rasterize(sidePoints);
+                    }
+                });
 
             }
         }
 
-        private void Rasterize(List<PixelInfo> sidePoints, BmpColor color)
+        private void Rasterize(List<PixelInfo> sidePoints)
         {
             int minY, maxY;
             PixelInfo xStartPixel, xEndPixel;
@@ -192,14 +197,17 @@ namespace GraphicsServices
                 int signZ = xStartPixel.Z < xEndPixel.Z ? 1 : -1;
                 float deltaZ = Math.Abs((xEndPixel.Z - xStartPixel.Z) / (xEndPixel.X - xStartPixel.X));
                 float curZ = xStartPixel.Z;
+                Vector3 deltaVn = (xEndPixel.Vn - xStartPixel.Vn) / (xEndPixel.X - xStartPixel.X);
+                Vector3 curVn = xStartPixel.Vn;
 
                 for (int x = xStartPixel.X + 1; x < xEndPixel.X; x++)
                 {
                     curZ += signZ * deltaZ;
+                    curVn += deltaVn;
 
                     if (UpdateZBuffer(x, y, curZ))
                     {
-                        bmp[x, y] = color;
+                        bmp[x, y] = lighting.GetColorForPoint(curVn);
                     }
                 }
             }

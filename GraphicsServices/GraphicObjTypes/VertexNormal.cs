@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Numerics;
 
 namespace GraphicsServices.GraphicObjTypes
 {
@@ -36,6 +37,11 @@ namespace GraphicsServices.GraphicObjTypes
             I = i;
             J = j;
             K = k;
+        }
+
+        public Vector3 ToVector()
+        {
+            return new Vector3((float)I, (float)J, (float)K);
         }
 
         public override string ToString()
