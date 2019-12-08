@@ -7,36 +7,36 @@ namespace ComputerGraphicsAlgorithms.ViewModels
     public class MainPageViewModel : INotifyPropertyChanged
     {
         #region Camera position
-        private float _xPos = 1f;
-        public float XPos
+        private float _xCameraPos = 1f;
+        public float XCameraPos
         {
-            get { return _xPos; }
+            get { return _xCameraPos; }
             set
             {
-                _xPos = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("XPos"));
+                _xCameraPos = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("XCameraPos"));
             }
         }
 
-        private float _yPos = 1f;
-        public float YPos
+        private float _yCameraPos = 1f;
+        public float YCameraPos
         {
-            get { return _yPos; }
+            get { return _yCameraPos; }
             set
             {
-                _yPos = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("YPos"));
+                _yCameraPos = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("YCameraPos"));
             }
         }
 
-        private float _zPos = 1f;
-        public float ZPos
+        private float _zCameraPos = 1f;
+        public float ZCameraPos
         {
-            get { return _zPos; }
+            get { return _zCameraPos; }
             set
             {
-                _zPos = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("ZPos"));
+                _zCameraPos = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("ZCameraPos"));
             }
         }
         #endregion
@@ -88,6 +88,39 @@ namespace ComputerGraphicsAlgorithms.ViewModels
         #endregion
 
         #region Object parameters
+        private int _xObjectPos = 0;
+        public int XObjectPos
+        {
+            get { return _xObjectPos; }
+            set
+            {
+                _xObjectPos = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("XObjectPos"));
+            }
+        }
+
+        private int _yObjectPos = 0;
+        public int YObjectPos
+        {
+            get { return _yObjectPos; }
+            set
+            {
+                _yObjectPos = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("YObjectPos"));
+            }
+        }
+
+        private int _zObjectPos = 0;
+        public int ZObjectPos
+        {
+            get { return _zObjectPos; }
+            set
+            {
+                _zObjectPos = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("ZObjectPos"));
+            }
+        }
+
         private int _scale = 1;
         public int Scale
         {

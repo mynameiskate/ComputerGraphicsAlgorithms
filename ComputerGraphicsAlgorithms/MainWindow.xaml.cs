@@ -55,10 +55,11 @@ namespace ComputerGraphicsAlgorithms
             var path = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\", "examples", fileName));
             parser.LoadObj(path);
 
-            camera.Position = new Vector3(vm.XPos, vm.YPos, vm.ZPos);
+            camera.Position = new Vector3(vm.XCameraPos, vm.YCameraPos, vm.ZCameraPos);
             camera.Target = Vector3.Zero;
 
             mesh = new RenderObj(parser.VertexList.Count, parser.FaceList.Count, parser.NormalList.Count);
+            mesh.Position = new Vector3(vm.XObjectPos, vm.YObjectPos, vm.ZObjectPos);
 
             for (var i = 0; i < parser.VertexList.Count; i++)
             {
@@ -91,10 +92,9 @@ namespace ComputerGraphicsAlgorithms
                 dpiX, dpiY, PixelFormats.Bgra32, null);
             lighting.Vector = new Vector3(vm.XLightPos, vm.YLightPos, vm.ZLightPos);
             renderer = new Renderer(bmp, lighting);
-
-            //mesh.Rotation = new Vector3(mesh.Rotation.X, mesh.Rotation.Y - 0.01f, mesh.Rotation.Z);
             mesh.Scale = vm.Scale;
-            camera.Position = new Vector3(vm.XPos, vm.YPos, vm.ZPos);
+            mesh.Position = new Vector3(vm.XObjectPos, vm.YObjectPos, vm.ZObjectPos);
+            camera.Position = new Vector3(vm.XCameraPos, vm.YCameraPos, vm.ZCameraPos);
             lighting.ViewVector = camera.Position;
 
             /*if (mesh.Direction < 0)
