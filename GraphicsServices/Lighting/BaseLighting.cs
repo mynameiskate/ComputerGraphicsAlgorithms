@@ -5,7 +5,8 @@ namespace GraphicsServices.Lighting
 {
     public class BaseLighting
     {
-        public Vector3 Vector { get; set; } = new Vector3(0, 0, 0);
+        public Vector3 AmbientColor { get; set; }
+        public Vector3 Vector { get; set; } = new Vector3(0);
         public float Intensity { get; set; } = 1;
 
         private BmpColor penColor = BmpColor.FromArgb(255, 0, 0, 0);
@@ -14,9 +15,15 @@ namespace GraphicsServices.Lighting
         {
         }
 
-        public BaseLighting(BmpColor color)
+        public BaseLighting(BmpColor bgColor)
+        {
+            AmbientColor = new Vector3(bgColor.R, bgColor.G, bgColor.B);
+        }
+
+        public BaseLighting(BmpColor color, BmpColor bgColor)
         {
             penColor = color;
+            AmbientColor = new Vector3(bgColor.R, bgColor.G, bgColor.B);
         }
 
         public virtual BmpColor GetColorForPoint(Vector3 normal)

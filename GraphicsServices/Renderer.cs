@@ -30,6 +30,15 @@ namespace GraphicsServices
             // 4 stands for RGBA
             backBuffer = new byte[baseBitmap.PixelWidth * baseBitmap.PixelHeight * 4];
             this.lighting = lighting;
+
+            if (lighting.AmbientColor != null)
+            {
+                bgColor = lighting.AmbientColor.ToColor();
+            }
+            else
+            {
+                lighting.AmbientColor = bgColor.ToVector3();
+            }
         }
 
         public void Clear()

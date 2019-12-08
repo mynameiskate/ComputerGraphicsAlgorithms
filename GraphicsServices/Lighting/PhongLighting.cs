@@ -9,7 +9,6 @@ namespace GraphicsServices.Lighting
         public Vector3 ViewVector { get; set; }
 
         #region Background lighting parameters
-        public Vector3 AmbientColor { get; set; }
         public Vector3 Ka { get; set; }
 
         // 𝐼𝑎 = 𝑘𝑎 ∙ 𝑖𝑎
