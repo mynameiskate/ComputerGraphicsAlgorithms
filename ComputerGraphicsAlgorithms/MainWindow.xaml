@@ -53,8 +53,8 @@
                 </TransformGroup>
             </xctk:IntegerUpDown.RenderTransform>
         </xctk:IntegerUpDown>
-        <Label Content="Axis" HorizontalAlignment="Left" Margin="824,150,-121,0"
-            VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Height="39" Width="40"/>
+        <Label Content="Camera Axis" HorizontalAlignment="Left" Margin="773,149,-118,0"
+            VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Height="39" Width="91"/>
         <RadioButton Name="xAxisRadioBtn" Content="X" HorizontalAlignment="Left"
                      Margin="886,156,-176,0" VerticalAlignment="Top" Checked="XAxisRadioBtn_Checked" Width="33"/>
         <RadioButton x:Name="yAxisRadioBtn" Content="Y" IsChecked="True" HorizontalAlignment="Left"
