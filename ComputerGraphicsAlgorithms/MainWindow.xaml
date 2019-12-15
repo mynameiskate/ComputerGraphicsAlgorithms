@@ -21,9 +21,9 @@
                 </TransformGroup>
             </xctk:IntegerUpDown.RenderTransform>
         </xctk:IntegerUpDown>
-        <Label Content="Camera position" HorizontalAlignment="Left" Margin="761,104,-116,0"
+        <Label Content="Camera position" HorizontalAlignment="Left" Margin="761,84,-113,0"
                VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="98"/>
-        <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="xPosUpdown" Width="50" Margin="880,108,-181,436"
+        <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="xPosUpdown" Width="50" Margin="880,88,-184,456"
              RenderTransformOrigin="0.5,0.506" Value="{Binding Path=XCameraPos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <xctk:IntegerUpDown.RenderTransform>
                 <TransformGroup>
@@ -33,7 +33,7 @@
                 </TransformGroup>
             </xctk:IntegerUpDown.RenderTransform>
         </xctk:IntegerUpDown>
-        <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="yPosUpdown" Width="50" Margin="937,108,-244,436"
+        <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="yPosUpdown" Width="50" Margin="938,88,-242,456"
             RenderTransformOrigin="0.5,0.506" Value="{Binding Path=YCameraPos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <xctk:IntegerUpDown.RenderTransform>
                 <TransformGroup>
@@ -43,7 +43,7 @@
                 </TransformGroup>
             </xctk:IntegerUpDown.RenderTransform>
         </xctk:IntegerUpDown>
-        <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="zPosUpdown" Width="50" Margin="1001,108,-308,437"
+        <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="zPosUpdown" Width="50" Margin="1002,88,-306,457"
             RenderTransformOrigin="0.5,0.506" Value="{Binding Path=ZCameraPos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <xctk:IntegerUpDown.RenderTransform>
                 <TransformGroup>
@@ -53,17 +53,17 @@
                 </TransformGroup>
             </xctk:IntegerUpDown.RenderTransform>
         </xctk:IntegerUpDown>
-        <Label Content="Camera Axis" HorizontalAlignment="Left" Margin="773,149,-118,0"
+        <Label Content="Camera Axis" HorizontalAlignment="Left" Margin="769,121,-114,0"
             VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Height="39" Width="91"/>
         <RadioButton Name="xAxisRadioBtn" Content="X" HorizontalAlignment="Left"
-                     Margin="886,156,-176,0" VerticalAlignment="Top" Checked="XAxisRadioBtn_Checked" Width="33"/>
+                     Margin="882,128,-169,0" VerticalAlignment="Top" Checked="XAxisRadioBtn_Checked" Width="33"/>
         <RadioButton x:Name="yAxisRadioBtn" Content="Y" IsChecked="True" HorizontalAlignment="Left"
-                     Margin="945,156,-235,0" VerticalAlignment="Top" Checked="YAxisRadioBtn_Checked" Width="33"/>
+                     Margin="941,128,-228,0" VerticalAlignment="Top" Checked="YAxisRadioBtn_Checked" Width="33"/>
         <RadioButton x:Name="zAxisRadioBtn" Content="Z" HorizontalAlignment="Left"
-                     Margin="1007,156,-297,0" VerticalAlignment="Top" Checked="ZAxisRadioBtn_Checked" Width="33"/>
-        <Label Content="Camera position" HorizontalAlignment="Left" Margin="761,104,-113,0"
+                     Margin="1003,128,-290,0" VerticalAlignment="Top" Checked="ZAxisRadioBtn_Checked" Width="33"/>
+        <Label Content="Camera position" HorizontalAlignment="Left" Margin="761,84,-113,0"
             VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="98"/>
-        <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="xLightPosUpdown" Width="50" Margin="880,274,-187,272"
+        <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="xLightPosUpdown" Width="50" Margin="882,188,-186,358"
             RenderTransformOrigin="-0.35,0.385" Value="{Binding Path=XLightPos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <xctk:IntegerUpDown.RenderTransform>
                 <TransformGroup>
@@ -73,7 +73,7 @@
                 </TransformGroup>
             </xctk:IntegerUpDown.RenderTransform>
         </xctk:IntegerUpDown>
-        <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="yLightPosUpdown" Width="50" Margin="942,274,-251,271"
+        <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="yLightPosUpdown" Width="50" Margin="944,188,-248,357"
             RenderTransformOrigin="-0.99,0.682" Value="{Binding Path=YLightPos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <xctk:IntegerUpDown.RenderTransform>
                 <TransformGroup>
@@ -83,7 +83,7 @@
                 </TransformGroup>
             </xctk:IntegerUpDown.RenderTransform>
         </xctk:IntegerUpDown>
-        <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="zLightPosUpdown" Width="50" Margin="1001,274,-310,271"
+        <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="zLightPosUpdown" Width="50" Margin="1004,188,-308,357"
             RenderTransformOrigin="0.5,0.506" Value="{Binding Path=ZLightPos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <xctk:IntegerUpDown.RenderTransform>
                 <TransformGroup>
@@ -93,11 +93,11 @@
                 </TransformGroup>
             </xctk:IntegerUpDown.RenderTransform>
         </xctk:IntegerUpDown>
-        <Label Content="Light position" HorizontalAlignment="Left" Margin="773,269,-113,0"
+        <Label Content="Light position" HorizontalAlignment="Left" Margin="773,183,-113,0"
             VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="86"/>
-        <Label Content="Light Intensity" HorizontalAlignment="Left" Margin="773,336,-113,0"
+        <Label Content="Light Intensity" HorizontalAlignment="Left" Margin="775,219,-115,0"
             VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="86"/>
-        <xctk:DecimalUpDown Minimum="0" Maximum="10" x:Name="lightIntensityUpdown" Width="50" Margin="880,338,-184,204"
+        <xctk:DecimalUpDown Minimum="0" Maximum="10" x:Name="lightIntensityUpdown" Width="50" Margin="882,221,-186,322"
             RenderTransformOrigin="0.5,0.506" Value="{Binding Path=Intensity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <xctk:DecimalUpDown.RenderTransform>
                 <TransformGroup>
@@ -107,9 +107,9 @@
                 </TransformGroup>
             </xctk:DecimalUpDown.RenderTransform>
         </xctk:DecimalUpDown>
-        <Label Content="Object position" HorizontalAlignment="Left" Margin="766,209,-118,0"
+        <Label Content="Object position" HorizontalAlignment="Left" Margin="767,152,-119,0"
             VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="98"/>
-        <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="xPosObjUpdown" Width="50" Margin="880,208,-184,337"
+        <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="xPosObjUpdown" Width="50" Margin="881,151,-185,395"
             RenderTransformOrigin="0.5,0.506" Value="{Binding XObjectPos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <xctk:IntegerUpDown.RenderTransform>
                 <TransformGroup>
@@ -119,7 +119,7 @@
                 </TransformGroup>
             </xctk:IntegerUpDown.RenderTransform>
         </xctk:IntegerUpDown>
-        <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="yObjPosUpdown" Width="50" Margin="942,208,-246,337"
+        <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="yObjPosUpdown" Width="50" Margin="943,151,-247,395"
             RenderTransformOrigin="0.5,0.506" Value="{Binding YObjectPos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <xctk:IntegerUpDown.RenderTransform>
                 <TransformGroup>
@@ -129,7 +129,7 @@
                 </TransformGroup>
             </xctk:IntegerUpDown.RenderTransform>
         </xctk:IntegerUpDown>
-        <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="zObjPosUpdown" Width="50" Margin="1001,208,-310,338"
+        <xctk:IntegerUpDown Minimum="-200" Maximum="200" x:Name="zObjPosUpdown" Width="50" Margin="1005,151,-309,394"
             RenderTransformOrigin="0.5,0.506" Value="{Binding ZObjectPos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <xctk:IntegerUpDown.RenderTransform>
                 <TransformGroup>
@@ -139,6 +139,150 @@
                 </TransformGroup>
             </xctk:IntegerUpDown.RenderTransform>
         </xctk:IntegerUpDown>
+        <xctk:IntegerUpDown Minimum="0" Maximum="255" x:Name="xAmbientColorUpdown" Width="50" Margin="883,263,-187,279"
+            RenderTransformOrigin="-0.35,0.385" Value="{Binding Path=XAmbientColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <xctk:IntegerUpDown.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <TranslateTransform X="0.003" Y="0.007"/>
+                </TransformGroup>
+            </xctk:IntegerUpDown.RenderTransform>
+        </xctk:IntegerUpDown>
+        <xctk:IntegerUpDown Minimum="0" Maximum="255" x:Name="yAmbientColorUpdown" Width="50" Margin="945,263,-249,279"
+            RenderTransformOrigin="-0.99,0.682" Value="{Binding Path=YAmbientColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <xctk:IntegerUpDown.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <TranslateTransform X="0.003" Y="0.007"/>
+                </TransformGroup>
+            </xctk:IntegerUpDown.RenderTransform>
+        </xctk:IntegerUpDown>
+        <xctk:IntegerUpDown Minimum="0" Maximum="255" x:Name="zAmbientColorUpdown" Width="50" Margin="1008,263,-312,279"
+            RenderTransformOrigin="0.5,0.506" Value="{Binding Path=ZAmbientColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <xctk:IntegerUpDown.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <TranslateTransform X="0.003" Y="0.007"/>
+                </TransformGroup>
+            </xctk:IntegerUpDown.RenderTransform>
+        </xctk:IntegerUpDown>
+        <Label Content="Ambient Color" HorizontalAlignment="Left" Margin="767,258,-114,0"
+            VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="93"/>
+        <xctk:IntegerUpDown Minimum="0" Maximum="255" x:Name="xDiffuseColorUpdown" Width="50" Margin="884,301,-188,242"
+            RenderTransformOrigin="-0.35,0.385" Value="{Binding XDiffuseColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <xctk:IntegerUpDown.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <TranslateTransform X="0.003" Y="0.007"/>
+                </TransformGroup>
+            </xctk:IntegerUpDown.RenderTransform>
+        </xctk:IntegerUpDown>
+        <xctk:IntegerUpDown Minimum="0" Maximum="255" x:Name="yDiffuseColorUpdown_Copy" Width="50" Margin="946,301,-250,241"
+            RenderTransformOrigin="-0.99,0.682" Value="{Binding YDiffuseColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <xctk:IntegerUpDown.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <TranslateTransform X="0.003" Y="0.007"/>
+                </TransformGroup>
+            </xctk:IntegerUpDown.RenderTransform>
+        </xctk:IntegerUpDown>
+        <xctk:IntegerUpDown Minimum="0" Maximum="255" x:Name="zDiffuseColorUpdown_Copy" Width="50" Margin="1009,301,-313,241"
+            RenderTransformOrigin="0.5,0.506" Value="{Binding ZDiffuseColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <xctk:IntegerUpDown.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <TranslateTransform X="0.003" Y="0.007"/>
+                </TransformGroup>
+            </xctk:IntegerUpDown.RenderTransform>
+        </xctk:IntegerUpDown>
+        <Label Content="Diffuse Color" HorizontalAlignment="Left" Margin="766,298,-113,0"
+            VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="93"/>
+        <xctk:IntegerUpDown Minimum="0" Maximum="255" x:Name="xSpecularColorUpdown" Width="50" Margin="884,343,-188,201"
+            RenderTransformOrigin="-0.35,0.385" Value="{Binding XSpecularColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <xctk:IntegerUpDown.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <TranslateTransform X="0.003" Y="0.007"/>
+                </TransformGroup>
+            </xctk:IntegerUpDown.RenderTransform>
+        </xctk:IntegerUpDown>
+        <xctk:IntegerUpDown Minimum="0" Maximum="255" x:Name="ySpecularColorUpdown" Width="50" Margin="946,343,-250,200"
+            RenderTransformOrigin="-0.99,0.682" Value="{Binding YSpecularColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <xctk:IntegerUpDown.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <TranslateTransform X="0.003" Y="0.007"/>
+                </TransformGroup>
+            </xctk:IntegerUpDown.RenderTransform>
+        </xctk:IntegerUpDown>
+        <xctk:IntegerUpDown Minimum="0" Maximum="255" x:Name="zSpecularColorUpdown" Width="50" Margin="1009,343,-313,200"
+            RenderTransformOrigin="0.5,0.506" Value="{Binding ZSpecularColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <xctk:IntegerUpDown.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <TranslateTransform X="0.003" Y="0.007"/>
+                </TransformGroup>
+            </xctk:IntegerUpDown.RenderTransform>
+        </xctk:IntegerUpDown>
+        <Label Content="Specular Color" HorizontalAlignment="Left" Margin="766,340,-113,0"
+            VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="93"/>
+        <Label Content="Gloss Coefficient" HorizontalAlignment="Left" Margin="766,379,-119,0"
+            VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="99"/>
+        <xctk:DecimalUpDown Minimum="0" Maximum="5" x:Name="glossCoefficientUpdown" Width="50" Margin="884,381,-188,163"
+            RenderTransformOrigin="0.5,0.506" Value="{Binding GlossCoefficient, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <xctk:DecimalUpDown.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <TranslateTransform X="0.003" Y="0.007"/>
+                </TransformGroup>
+            </xctk:DecimalUpDown.RenderTransform>
+        </xctk:DecimalUpDown>
+        <Label Content="Ka" HorizontalAlignment="Left" Margin="775,422,-52,0"
+            VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="23"/>
+        <xctk:DecimalUpDown Minimum="0" Maximum="1" x:Name="KaUpdown" Width="50" Margin="813,423,-117,122"
+            RenderTransformOrigin="0.5,0.506" Value="{Binding Ka, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <xctk:DecimalUpDown.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <TranslateTransform X="0.003" Y="0.007"/>
+                </TransformGroup>
+            </xctk:DecimalUpDown.RenderTransform>
+        </xctk:DecimalUpDown>
+        <Label Content="Kd" HorizontalAlignment="Left" Margin="880,423,-157,0"
+            VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="23"/>
+        <xctk:DecimalUpDown Minimum="0" Maximum="1" x:Name="KdUpdown" Width="50" Margin="918,424,-222,121"
+            RenderTransformOrigin="0.5,0.506" Value="{Binding Kd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <xctk:DecimalUpDown.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <TranslateTransform X="0.003" Y="0.007"/>
+                </TransformGroup>
+            </xctk:DecimalUpDown.RenderTransform>
+        </xctk:DecimalUpDown>
+        <Label Content="Ks" HorizontalAlignment="Left" Margin="989,426,-266,0"
+            VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="23"/>
+        <xctk:DecimalUpDown Minimum="0" Maximum="1" x:Name="KsUpdown" Width="50" Margin="1027,424,-331,119"
+            RenderTransformOrigin="0.5,0.506" Value="{Binding Ks, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <xctk:DecimalUpDown.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <TranslateTransform X="0.003" Y="0.007"/>
+                </TransformGroup>
+            </xctk:DecimalUpDown.RenderTransform>
+        </xctk:DecimalUpDown>
         <!--<Label Content="Phong shading" HorizontalAlignment="Left" Margin="766,341,-118,0"
             VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="98"/>
         <CheckBox Content="On" HorizontalAlignment="Left" Margin="886,348,-211,0" VerticalAlignment="Top" RenderTransformOrigin="6.479,9.065" Checked="CheckBox_Checked"/>-->

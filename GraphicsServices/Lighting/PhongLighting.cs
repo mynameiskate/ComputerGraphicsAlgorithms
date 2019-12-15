@@ -48,9 +48,18 @@ namespace GraphicsServices.Lighting
 
         private Vector3 GetPhongLightVector(Vector3 normal)
         {
-            return BackgroundLightVector
+            var v1 = BackgroundLightVector;
+            var v2 = v1 + GetDiffusedLightVector(normal);
+            var v3 = v2 + GetSpecularLightVector(normal);
+
+            v3.X = Math.Min(v3.X, 255);
+            v3.Y = Math.Min(v3.Y, 255);
+            v3.Z = Math.Min(v3.Z, 255);
+
+            return v3;
+            /*return BackgroundLightVector
                 + GetDiffusedLightVector(normal)
-                + GetSpecularLightVector(normal);
+                + GetSpecularLightVector(normal);*/
         }
 
         public override BmpColor GetColorForPoint(Vector3 normal)

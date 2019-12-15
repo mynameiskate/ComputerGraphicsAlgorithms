@@ -25,17 +25,18 @@ namespace ComputerGraphicsAlgorithms
         RenderObj mesh;
         PhongLighting lighting = new PhongLighting
         {
-            AmbientColor = new Vector3(100, 0, 100),
-            DiffuseColor = new Vector3(0, 0, 255),
-            SpecularColor = new Vector3(255, 255, 255),
-            GlossCoefficient = 0.6f,
-            Ka = new Vector3(0.1f),
-            Kd = new Vector3(0.1f),
-            Ks = new Vector3(0.1f)
+            AmbientColor = new Vector3(0, 0, 0),
+            DiffuseColor = new Vector3(0, 0, 0),
+            SpecularColor = new Vector3(0, 0, 0),
+            GlossCoefficient = 0.0f,
+            Ka = new Vector3(0.0f),
+            Kd = new Vector3(0.0f),
+            Ks = new Vector3(0.0f)
         };
 
         // Temporary example of file name for parsing
         string path = "diablo3_pose.obj";
+        /*string path = "african_head.obj";*/
         private AxisType axis = AxisType.X;
         private int dpiX;
         private int dpiY;
@@ -90,7 +91,14 @@ namespace ComputerGraphicsAlgorithms
 
             WriteableBitmap bmp = new WriteableBitmap((int)image.Width, (int)image.Height,
                 dpiX, dpiY, PixelFormats.Bgra32, null);
-            lighting.Vector = new Vector3(vm.XLightPos, vm.YLightPos, vm.ZLightPos);
+            lighting.GlossCoefficient = vm.GlossCoefficient;
+            lighting.Ka = new Vector3(vm.Ka);
+            lighting.Kd = new Vector3(vm.Kd);
+            lighting.Ks = new Vector3(vm.Ks);
+            lighting.AmbientColor = new Vector3(vm.XAmbientColor, vm.YAmbientColor, vm.ZAmbientColor);
+            lighting.DiffuseColor = new Vector3(vm.XDiffuseColor, vm.YDiffuseColor, vm.ZDiffuseColor);
+            lighting.SpecularColor = new Vector3(vm.XSpecularColor, vm.YSpecularColor, vm.ZSpecularColor);
+            lighting.Vector = Vector3.Normalize(new Vector3(vm.XLightPos, vm.YLightPos, vm.ZLightPos));
             renderer = new Renderer(bmp, lighting);
             mesh.Scale = vm.Scale;
             mesh.Position = new Vector3(vm.XObjectPos, vm.YObjectPos, vm.ZObjectPos);
