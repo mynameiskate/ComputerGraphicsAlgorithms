@@ -237,7 +237,7 @@
             VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="93"/>
         <Label Content="Gloss Coefficient" HorizontalAlignment="Left" Margin="766,379,-119,0"
             VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="99"/>
-        <xctk:DecimalUpDown Minimum="0" Maximum="5" x:Name="glossCoefficientUpdown" Width="50" Margin="884,381,-188,163"
+        <xctk:DecimalUpDown Minimum="0" Maximum="100" x:Name="glossCoefficientUpdown" Width="50" Margin="884,381,-188,163"
             RenderTransformOrigin="0.5,0.506" Value="{Binding GlossCoefficient, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <xctk:DecimalUpDown.RenderTransform>
                 <TransformGroup>

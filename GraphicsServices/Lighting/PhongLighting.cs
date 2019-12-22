@@ -42,24 +42,21 @@ namespace GraphicsServices.Lighting
         {
             // 𝑅 = 𝐿 − 2 ∙ (𝐿 ∙ 𝑁) ∙ 𝑁
             var reflectionVector = Vector3.Normalize(Vector3.Reflect(Vector, normal));
-            return Ks * (float)Math.Pow(Math.Max(Vector3.Dot(reflectionVector, ViewVector), 0), GlossCoefficient) * SpecularColor;
+            return Ks * (float)Math.Pow(Math.Max(Vector3.Dot(reflectionVector, new Vector3(0, 0, -1)), 0), GlossCoefficient) * SpecularColor;
         }
         #endregion
 
         private Vector3 GetPhongLightVector(Vector3 normal)
         {
-            var v1 = BackgroundLightVector;
-            var v2 = v1 + GetDiffusedLightVector(normal);
-            var v3 = v2 + GetSpecularLightVector(normal);
-
-            v3.X = Math.Min(v3.X, 255);
-            v3.Y = Math.Min(v3.Y, 255);
-            v3.Z = Math.Min(v3.Z, 255);
-
-            return v3;
-            /*return BackgroundLightVector
+            var resultVector = BackgroundLightVector
                 + GetDiffusedLightVector(normal)
-                + GetSpecularLightVector(normal);*/
+                + GetSpecularLightVector(normal);
+
+            resultVector.X = Math.Min(resultVector.X, 255);
+            resultVector.Y = Math.Min(resultVector.Y, 255);
+            resultVector.Z = Math.Min(resultVector.Z, 255);
+
+            return resultVector;
         }
 
         public override BmpColor GetColorForPoint(Vector3 normal)

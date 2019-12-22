@@ -42,7 +42,7 @@ namespace ComputerGraphicsAlgorithms.ViewModels
         #endregion
 
         #region Lighting parameters
-        private float _xLightPos = 1f;
+        private float _xLightPos = -1f;
         public float XLightPos
         {
             get { return _xLightPos; }
@@ -53,7 +53,7 @@ namespace ComputerGraphicsAlgorithms.ViewModels
             }
         }
 
-        private float _yLightPos = 1f;
+        private float _yLightPos = 0f;
         public float YLightPos
         {
             get { return _yLightPos; }
@@ -64,7 +64,7 @@ namespace ComputerGraphicsAlgorithms.ViewModels
             }
         }
 
-        private float _zLightPos = 1f;
+        private float _zLightPos = 0f;
         public float ZLightPos
         {
             get { return _zLightPos; }
@@ -86,7 +86,7 @@ namespace ComputerGraphicsAlgorithms.ViewModels
             }
         }
 
-        private float _glossCoefficient = 0.6f;
+        private float _glossCoefficient = 50f;
         public float GlossCoefficient
         {
             get { return _glossCoefficient; }
@@ -108,7 +108,7 @@ namespace ComputerGraphicsAlgorithms.ViewModels
             }
         }
 
-        private float _Kd = 0.1f;
+        private float _Kd = 0.6f;
         public float Kd
         {
             get { return _Kd; }
@@ -119,7 +119,7 @@ namespace ComputerGraphicsAlgorithms.ViewModels
             }
         }
 
-        private float _Ks = 0.1f;
+        private float _Ks = 0.7f;
         public float Ks
         {
             get { return _Ks; }
