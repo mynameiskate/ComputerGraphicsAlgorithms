@@ -61,8 +61,8 @@ namespace GraphicsServices.Lighting
 
         public override BmpColor GetColorForPoint(Vector3 normal)
         {
-            var lighVector = GetPhongLightVector(normal);
-            return BmpColor.FromArgb(255, (byte)lighVector.X, (byte)lighVector.Y, (byte)lighVector.Z);
+            var lightVector = GetPhongLightVector(normal);
+            return BmpColor.FromArgb(255, (byte)lightVector.X, (byte)lightVector.Y, (byte)lightVector.Z);
         }
     }
 }
