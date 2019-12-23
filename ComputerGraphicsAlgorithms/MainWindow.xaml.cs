@@ -1,5 +1,6 @@
 ﻿using ComputerGraphicsAlgorithms.ViewModels;
 using GraphicsServices;
+using GraphicsServices.GraphicObjTypes;
 using GraphicsServices.Lighting;
 using GraphicsServices.RenderObjTypes;
 using System;
@@ -35,8 +36,8 @@ namespace ComputerGraphicsAlgorithms
         };
 
         // Temporary example of file name for parsing
-        string path = "diablo3_pose.obj";
-        /*string path = "african_head.obj";*/
+        // string path = "african_head.obj";
+        string path = "diablo3_pose";
         private AxisType axis = AxisType.X;
         private int dpiX;
         private int dpiY;
@@ -52,14 +53,22 @@ namespace ComputerGraphicsAlgorithms
 
         private void LoadFile(string fileName)
         {
+            //string texturePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\", "examples", fileName));
+            //texturePath += "_diffuse.png";
+
+            //BitmapImage imgNormals = new BitmapImage(new Uri(texturePath, UriKind.Relative));
+            //imgNormals.CreateOptions = BitmapCreateOptions.None;
+            //var initialWriteableBitmapNormals = new WriteableBitmap(imgNormals);
+            //var normalsTexture = new Bgr24Bitmap(initialWriteableBitmapNormals);
+
             var parser = new ObjParser();
-            var path = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\", "examples", fileName));
+            var path = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\", "examples", fileName + ".obj"));
             parser.LoadObj(path);
 
             camera.Position = new Vector3(vm.XCameraPos, vm.YCameraPos, vm.ZCameraPos);
             camera.Target = Vector3.Zero;
 
-            mesh = new RenderObj(parser.VertexList.Count, parser.FaceList.Count, parser.NormalList.Count);
+            mesh = new RenderObj(parser.VertexList.Count, parser.FaceList.Count, parser.NormalList.Count, parser.TextureList.Count);
             mesh.Position = new Vector3(vm.XObjectPos, vm.YObjectPos, vm.ZObjectPos);
 
             for (var i = 0; i < parser.VertexList.Count; i++)
@@ -72,6 +81,11 @@ namespace ComputerGraphicsAlgorithms
             for (var i = 0; i < parser.NormalList.Count; i++)
             {
                 mesh.Normals[i] = parser.NormalList[i].ToVector();
+            }
+
+            for (var i = 0; i < parser.TextureList.Count; i++)
+            {
+                mesh.Textures[i] = parser.TextureList[i].ToVector();
             }
 
             UpdateAnimation();
