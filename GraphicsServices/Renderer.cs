@@ -85,11 +85,6 @@ namespace GraphicsServices
             {
                 sidePoints.Add(new PixelInfo(x0, y0, z0, w0, vn0));
 
-                if (UpdateZBuffer(x0, y0, z0))
-                {
-                    bmp[x0, y0] = lighting.GetColorForPoint(vn0 / w0);
-                }
-
                 int error2 = error * 2;
 
                 if (error2 > -deltaY)
@@ -97,8 +92,14 @@ namespace GraphicsServices
                     error -= deltaY;
                     x0 += signX;
                 }
+
                 if (error2 < deltaX)
                 {
+                    if (UpdateZBuffer(x0, y0, z0))
+                    {
+                        bmp[x0, y0] = lighting.GetColorForPoint(vn0 / w0);
+                    }
+
                     error += deltaX;
                     y0 += signY;
                     z0 += signZ * zCoef;
@@ -199,6 +200,8 @@ namespace GraphicsServices
             PixelInfo xStartPixel, xEndPixel;
 
             var yList = sidePoints.OrderBy(x => x.Y).ToList();
+
+            //for (int y = yList[0].Y; y <= yList[yList.Count - 1].Y; y++ )
 
             for (int i = 0; i < yList.Count; i++)
             {
