@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 
 namespace GraphicsServices.Extensions
 {
@@ -20,6 +21,15 @@ namespace GraphicsServices.Extensions
                 default:
                     return Vector3.UnitZ;
             }
+        }
+
+        public static Vector3 ToByteVector3(this Vector3 vector)
+        {
+            var x = Math.Min(vector.X, 255);
+            var y = Math.Min(vector.Y, 255);
+            var z = Math.Min(vector.Z, 255);
+
+            return new Vector3(x, y, z);
         }
     }
 }
