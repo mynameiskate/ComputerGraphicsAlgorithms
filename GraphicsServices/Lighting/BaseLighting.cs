@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using BmpColor = System.Windows.Media.Color;
 
 namespace GraphicsServices.Lighting
@@ -48,6 +49,11 @@ namespace GraphicsServices.Lighting
             {
                 return penColor;
             }
+        }
+
+        public virtual BmpColor GetTexturizedColorForPoint(Vector3 vector31, Vector3 vector32)
+        {
+            throw new NotImplementedException();
         }
     }
 }

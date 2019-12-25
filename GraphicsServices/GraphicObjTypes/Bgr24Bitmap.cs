@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -32,7 +33,12 @@ namespace GraphicsServices.GraphicObjTypes
         {
             return (byte*)(BackBuffer + y * BackBufferStride + x * BytesPerPixel);
         }
-        
+
+        public unsafe Vector3 GetVector(int x, int y)
+        {
+            byte* address = GetAddress(x, y);
+            return new Vector3(address[2], address[1], address[0]);
+        }
 
         public void Clear(Color color)
         {
