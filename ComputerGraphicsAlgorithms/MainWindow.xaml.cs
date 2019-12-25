@@ -85,7 +85,7 @@ namespace ComputerGraphicsAlgorithms
 
             for (var i = 0; i < parser.TextureList.Count; i++)
             {
-                mesh.Textures[i] = parser.TextureList[i].ToVector();
+                mesh.TextureCoordinates[i] = parser.TextureList[i].ToVector();
             }
 
             UpdateAnimation();
