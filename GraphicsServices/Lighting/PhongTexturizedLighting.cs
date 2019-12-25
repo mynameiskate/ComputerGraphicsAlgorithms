@@ -9,12 +9,12 @@ namespace GraphicsServices.Lighting
 {
     public class PhongTexturizingLighting: PhongLighting
     {
-        public BmpColor GetColorForPoint(RenderObj obj, Vector3 texel, Vector3 normal)
+        public override BmpColor GetTexturizedColorForPoint(RenderObj obj, Vector3 normal, Vector3 texel)
         {
-            return GetPhongTexturizedLightVector(obj, texel, normal).ToColor();
+            return GetPhongTexturizedLightVector(obj, normal, texel).ToColor();
         }
 
-        private Vector3 GetPhongTexturizedLightVector(RenderObj obj, Vector3 texel, Vector3 pointNormal)
+        private Vector3 GetPhongTexturizedLightVector(RenderObj obj, Vector3 pointNormal, Vector3 texel)
         {
             var x = texel.X * obj.DiffuseTexture.PixelWidth;
             var y = (1 - texel.Y) * obj.DiffuseTexture.PixelHeight;

@@ -47,7 +47,7 @@ namespace GraphicsServices
         }
 
         // Bresenham's algorithm
-        public List<PixelInfo> GetSides(PixelInfo point0, PixelInfo point1, ZBuffer zBuf)
+        public List<PixelInfo> GetSides(RenderObj obj, PixelInfo point0, PixelInfo point1, ZBuffer zBuf)
         {
             int x0 = point0.X;
             int y0 = point0.Y;
@@ -81,7 +81,7 @@ namespace GraphicsServices
 
             if (UpdateZBuffer(x1, y1, z1))
             {
-                bmp[x1, y1] = lighting.GetTexturizedColorForPoint(vn1 / w1, vn1/ w1);
+                bmp[x1, y1] = lighting.GetTexturizedColorForPoint(obj, vn1 / w1, vn1/ w1);
                 // bmp[x1, y1] = lighting.GetColorForPoint(vn1 / w1);
             }
 
@@ -101,7 +101,7 @@ namespace GraphicsServices
                 {
                     if (UpdateZBuffer(x0, y0, z0))
                     {
-                        bmp[x0, y0] = lighting.GetTexturizedColorForPoint(vn0 / w0, vt0 / w0);
+                        bmp[x0, y0] = lighting.GetTexturizedColorForPoint(obj, vn0 / w0, vt0 / w0);
                         //  bmp[x0, y0] = lighting.GetColorForPoint(vn0 / w0);
                     }
 
@@ -182,6 +182,7 @@ namespace GraphicsServices
                         for (int i = 0; i < pixels.Length - 1; i++)
                         {
                             sidePoints.AddRange(GetSides(
+                                mesh,
                                 new PixelInfo { X = (int)pixels[i].X, Y = (int)pixels[i].Y, Z = pixels[i].Z, Vn = normals[i], Vt = textures[i], W = pixels[i].W },
                                 new PixelInfo { X = (int)pixels[i + 1].X, Y = (int)pixels[i + 1].Y, Z = pixels[i + 1].Z, Vn = normals[i + 1], Vt = textures[i + 1], W = pixels[i + 1].W },
                                 zBuf
@@ -189,6 +190,7 @@ namespace GraphicsServices
                         }
 
                         sidePoints.AddRange(GetSides(
+                            mesh,
                             new PixelInfo { X = (int)pixels[0].X, Y = (int)pixels[0].Y, Z = pixels[0].Z, Vn = normals[0], Vt = textures[0], W = pixels[0].W },
                             new PixelInfo { X = (int)pixels[pixels.Length - 1].X, Y = (int)pixels[pixels.Length - 1].Y, Z = pixels[pixels.Length - 1].Z,
                                 Vn = normals[pixels.Length - 1], Vt = textures[pixels.Length - 1], W = pixels[pixels.Length - 1].W
@@ -196,13 +198,13 @@ namespace GraphicsServices
                             zBuf
                         ));
 
-                        Rasterize(sidePoints);
+                        Rasterize(mesh, sidePoints);
                     }
                 });
             }
         }
 
-        private void Rasterize(List<PixelInfo> sidePoints)
+        private void Rasterize(RenderObj obj, List<PixelInfo> sidePoints)
         {
             PixelInfo xStartPixel, xEndPixel;
 
@@ -235,7 +237,7 @@ namespace GraphicsServices
 
                     if (UpdateZBuffer(x, y, curZ))
                     {
-                        bmp[x, y] = lighting.GetTexturizedColorForPoint(curVn / curW, curVt / curW);
+                        bmp[x, y] = lighting.GetTexturizedColorForPoint(obj, curVn / curW, curVt / curW);
                         // bmp[x, y] = lighting.GetColorForPoint(curVn / curW);
                     }
                 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GraphicsServices.RenderObjTypes;
+using System;
 using System.Numerics;
 using BmpColor = System.Windows.Media.Color;
 
@@ -51,7 +52,7 @@ namespace GraphicsServices.Lighting
             }
         }
 
-        public virtual BmpColor GetTexturizedColorForPoint(Vector3 vector31, Vector3 vector32)
+        public virtual BmpColor GetTexturizedColorForPoint(RenderObj obj, Vector3 texel, Vector3 normal)
         {
             throw new NotImplementedException();
         }
