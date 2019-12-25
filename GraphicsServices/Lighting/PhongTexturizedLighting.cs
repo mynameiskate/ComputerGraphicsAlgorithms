@@ -7,7 +7,7 @@ using BmpColor = System.Windows.Media.Color;
 
 namespace GraphicsServices.Lighting
 {
-    public class PhongTexturizingLighting: PhongLighting
+    public class PhongTexturizingLighting : PhongLighting
     {
         public override BmpColor GetTexturizedColorForPoint(RenderObj obj, Vector3 normal, Vector3 texel)
         {
@@ -19,7 +19,7 @@ namespace GraphicsServices.Lighting
             var x = texel.X * obj.DiffuseTexture.PixelWidth;
             var y = (1 - texel.Y) * obj.DiffuseTexture.PixelHeight;
 
-            if (x < 0 || y < 0)
+            if (x < 0 || y < 0 || x >= obj.DiffuseTexture.PixelWidth || y >= obj.DiffuseTexture.PixelHeight)
             {
                 return new Vector3(0);
             }

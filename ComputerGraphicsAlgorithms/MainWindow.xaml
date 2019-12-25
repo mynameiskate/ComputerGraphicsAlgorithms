@@ -283,6 +283,10 @@
                 </TransformGroup>
             </xctk:DecimalUpDown.RenderTransform>
         </xctk:DecimalUpDown>
+        <RadioButton x:Name="shadingRadioBtn" Content="Common shading" IsChecked="True" HorizontalAlignment="Left"
+            Margin="811,480,-184,0" VerticalAlignment="Top" Checked="ShadingRadioBtn_Checked" Width="119"/>
+        <RadioButton x:Name="texturingRadioBtn" Content="Texturing" HorizontalAlignment="Left"
+            Margin="941,480,-277,0" VerticalAlignment="Top" Checked="TexturingRadioBtn_Checked" Width="82"/>
         <!--<Label Content="Phong shading" HorizontalAlignment="Left" Margin="766,341,-118,0"
             VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="98"/>
         <CheckBox Content="On" HorizontalAlignment="Left" Margin="886,348,-211,0" VerticalAlignment="Top" RenderTransformOrigin="6.479,9.065" Checked="CheckBox_Checked"/>-->

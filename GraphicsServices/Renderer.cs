@@ -81,8 +81,13 @@ namespace GraphicsServices
 
             if (UpdateZBuffer(x1, y1, z1))
             {
-                bmp[x1, y1] = lighting.GetTexturizedColorForPoint(obj, vn1 / w1, vn1/ w1);
-                // bmp[x1, y1] = lighting.GetColorForPoint(vn1 / w1);
+                if (lighting is PhongTexturizingLighting)
+                {
+                    bmp[x1, y1] = lighting.GetTexturizedColorForPoint(obj, vn1 / w1, vn1/ w1);
+                } else
+                {
+                    bmp[x1, y1] = lighting.GetColorForPoint(vn1 / w1);
+                }
             }
 
             while (x0 != x1 || y0 != y1)
@@ -101,8 +106,14 @@ namespace GraphicsServices
                 {
                     if (UpdateZBuffer(x0, y0, z0))
                     {
-                        bmp[x0, y0] = lighting.GetTexturizedColorForPoint(obj, vn0 / w0, vt0 / w0);
-                        //  bmp[x0, y0] = lighting.GetColorForPoint(vn0 / w0);
+                        if (lighting is PhongTexturizingLighting)
+                        {
+                            bmp[x0, y0] = lighting.GetTexturizedColorForPoint(obj, vn0 / w0, vt0 / w0);
+                        }
+                        else
+                        {
+                            bmp[x0, y0] = lighting.GetColorForPoint(vn0 / w0);
+                        }
                     }
 
                     error += deltaX;
@@ -164,7 +175,11 @@ namespace GraphicsServices
                         normals[i] = Vector3.Normalize(Vector3.TransformNormal(mesh.Normals[face.VertexNormalIndexList[i] - 1], worldMatrix));
                     }
 
-                    // transform textures??
+                    for (int i = 0; i < face.TextureVertexIndexList.Length; i++)
+                    {
+                        textures[i] = Vector3.TransformNormal(mesh.TextureCoordinates[face.TextureVertexIndexList[i] - 1], worldMatrix);
+                    }
+
 
                     var normal = GetSurfaceNormal(
                         new Vector3(pixels[0].X, pixels[0].Y, pixels[0].Z),
@@ -237,8 +252,14 @@ namespace GraphicsServices
 
                     if (UpdateZBuffer(x, y, curZ))
                     {
-                        bmp[x, y] = lighting.GetTexturizedColorForPoint(obj, curVn / curW, curVt / curW);
-                        // bmp[x, y] = lighting.GetColorForPoint(curVn / curW);
+                        if (lighting is PhongTexturizingLighting)
+                        {
+                            bmp[x, y] = lighting.GetTexturizedColorForPoint(obj, curVn / curW, curVt / curW);
+                        }
+                        else
+                        {
+                            bmp[x, y] = lighting.GetColorForPoint(curVn / curW);
+                        }
                     }
                 }
             }

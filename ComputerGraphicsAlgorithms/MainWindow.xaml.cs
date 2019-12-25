@@ -23,7 +23,7 @@ namespace ComputerGraphicsAlgorithms
         Renderer renderer;
         Camera camera = new Camera();
         RenderObj mesh;
-        PhongLighting lighting = new PhongTexturizingLighting
+        PhongLighting lighting = new PhongTexturizingLighting //PhongLighting lighting = new PhongLighting
         {
             AmbientColor = new Vector3(0, 0, 0),
             DiffuseColor = new Vector3(0, 0, 0),
@@ -35,8 +35,9 @@ namespace ComputerGraphicsAlgorithms
         };
 
         // Temporary example of file name for parsing
-        // string path = "african_head.obj";
+        //string path = "african_head";
         string path = "diablo3_pose";
+        private bool isTexturing = false;
         private AxisType axis = AxisType.X;
         private int dpiX;
         private int dpiY;
@@ -48,6 +49,7 @@ namespace ComputerGraphicsAlgorithms
             DataContext = vm;
             vm.PropertyChanged += view_PropertyChanged;
             GetDPI();
+            UpdateLighting();
         }
 
         private void LoadFile(string fileName)
@@ -92,6 +94,43 @@ namespace ComputerGraphicsAlgorithms
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             LoadFile(path);
+        }
+
+        private void UpdateLighting()
+        {
+            var ambientColor = lighting.AmbientColor;
+            var diffuseColor = lighting.DiffuseColor;
+            var specularColor = lighting.SpecularColor;
+            var glossCoefficient = lighting.GlossCoefficient;
+            var Ka = lighting.Ka;
+            var Kd = lighting.Kd;
+            var Ks = lighting.Ks;
+
+            if (isTexturing)
+            {
+                lighting = new PhongTexturizingLighting
+                {
+                    AmbientColor = ambientColor,
+                    DiffuseColor = diffuseColor,
+                    SpecularColor = specularColor,
+                    GlossCoefficient = glossCoefficient,
+                    Ka = Ka,
+                    Kd = Kd,
+                    Ks = Ks
+                };
+            } else
+            {
+                lighting = new PhongLighting
+                {
+                    AmbientColor = ambientColor,
+                    DiffuseColor = diffuseColor,
+                    SpecularColor = specularColor,
+                    GlossCoefficient = glossCoefficient,
+                    Ka = Ka,
+                    Kd = Kd,
+                    Ks = Ks
+                };
+            }
         }
 
         private void UpdateAnimation()
@@ -175,6 +214,26 @@ namespace ComputerGraphicsAlgorithms
             axis = AxisType.Z;
             xAxisRadioBtn.IsChecked = false;
             yAxisRadioBtn.IsChecked = false;
+            UpdateAnimation();
+        }
+
+        private void ShadingRadioBtn_Checked(object sender, RoutedEventArgs e)
+        {
+            isTexturing = false;
+
+            if (texturingRadioBtn != null)
+            {
+                texturingRadioBtn.IsChecked = false;
+                UpdateLighting();
+                UpdateAnimation();
+            }
+        }
+
+        private void TexturingRadioBtn_Checked(object sender, RoutedEventArgs e)
+        {
+            isTexturing = true;
+            shadingRadioBtn.IsChecked = false;
+            UpdateLighting();
             UpdateAnimation();
         }
     }
