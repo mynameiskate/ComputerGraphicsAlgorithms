@@ -1,6 +1,5 @@
 ﻿using ComputerGraphicsAlgorithms.ViewModels;
 using GraphicsServices;
-using GraphicsServices.GraphicObjTypes;
 using GraphicsServices.Lighting;
 using GraphicsServices.RenderObjTypes;
 using System;
@@ -24,7 +23,7 @@ namespace ComputerGraphicsAlgorithms
         Renderer renderer;
         Camera camera = new Camera();
         RenderObj mesh;
-        PhongLighting lighting = new PhongLighting
+        PhongLighting lighting = new PhongTexturizingLighting
         {
             AmbientColor = new Vector3(0, 0, 0),
             DiffuseColor = new Vector3(0, 0, 0),
@@ -53,22 +52,21 @@ namespace ComputerGraphicsAlgorithms
 
         private void LoadFile(string fileName)
         {
-            //string texturePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\", "examples", fileName));
-            //texturePath += "_diffuse.png";
-
-            //BitmapImage imgNormals = new BitmapImage(new Uri(texturePath, UriKind.Relative));
-            //imgNormals.CreateOptions = BitmapCreateOptions.None;
-            //var initialWriteableBitmapNormals = new WriteableBitmap(imgNormals);
-            //var normalsTexture = new Bgr24Bitmap(initialWriteableBitmapNormals);
+            var objPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\", "examples", $"{fileName}.{FileExtensions.Object}"));
+            var normalsPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\", "examples", $"{fileName}_{FileExtensions.Normal}.{FileExtensions.ImgType}"));
+            var diffuseTexturePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\", "examples", $"{fileName}_{FileExtensions.Diffuse}.{FileExtensions.ImgType}"));
+            var specularTexturePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\", "examples", $"{fileName}_{FileExtensions.Specular}.{FileExtensions.ImgType}"));
 
             var parser = new ObjParser();
-            var path = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\", "examples", fileName + ".obj"));
-            parser.LoadObj(path);
+            parser.LoadObj(objPath);
 
             camera.Position = new Vector3(vm.XCameraPos, vm.YCameraPos, vm.ZCameraPos);
             camera.Target = Vector3.Zero;
 
             mesh = new RenderObj(parser.VertexList.Count, parser.FaceList.Count, parser.NormalList.Count, parser.TextureList.Count);
+            mesh.NormalTexture = parser.LoadTexture(normalsPath);
+            mesh.DiffuseTexture = parser.LoadTexture(diffuseTexturePath);
+            mesh.SpecularTexture = parser.LoadTexture(specularTexturePath);
             mesh.Position = new Vector3(vm.XObjectPos, vm.YObjectPos, vm.ZObjectPos);
 
             for (var i = 0; i < parser.VertexList.Count; i++)

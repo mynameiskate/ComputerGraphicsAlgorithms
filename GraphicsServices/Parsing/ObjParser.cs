@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Media.Imaging;
 
 namespace GraphicsServices
 {
@@ -28,6 +29,14 @@ namespace GraphicsServices
             {
                 ParseLine(line);
             }
+        }
+
+        public Bgr24Bitmap LoadTexture(string path)
+        {
+            BitmapImage img = new BitmapImage(new Uri(path, UriKind.Relative));
+            img.CreateOptions = BitmapCreateOptions.None;
+            var bitmap = new WriteableBitmap(img);
+            return new Bgr24Bitmap(bitmap);
         }
 
         private void ParseLine(string line)
