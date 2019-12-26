@@ -52,7 +52,7 @@ namespace GraphicsServices.Lighting
             }
         }
 
-        public virtual BmpColor GetTexturizedColorForPoint(RenderObj obj, Vector3 texel, Vector3 normal)
+        public virtual BmpColor GetTexturizedColorForPoint(RenderObj obj, Vector3 normal, Vector3 texel)
         {
             throw new NotImplementedException();
         }

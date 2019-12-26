@@ -83,8 +83,9 @@ namespace GraphicsServices
             {
                 if (lighting is PhongTexturizingLighting)
                 {
-                    bmp[x1, y1] = lighting.GetTexturizedColorForPoint(obj, vn1 / w1, vn1/ w1);
-                } else
+                    bmp[x1, y1] = lighting.GetTexturizedColorForPoint(obj, vn1 / w1, vt1/ w1);
+                }
+                else
                 {
                     bmp[x1, y1] = lighting.GetColorForPoint(vn1 / w1);
                 }
