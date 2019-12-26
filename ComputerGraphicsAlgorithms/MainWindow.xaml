@@ -249,8 +249,8 @@
         </xctk:DecimalUpDown>
         <Label Content="Ka" HorizontalAlignment="Left" Margin="775,422,-52,0"
             VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="23"/>
-        <xctk:DecimalUpDown Minimum="0" Maximum="1" x:Name="KaUpdown" Width="50" Margin="813,423,-117,122"
-            RenderTransformOrigin="0.5,0.506" Value="{Binding Ka, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+        <xctk:DecimalUpDown Minimum="0" Maximum="1" x:Name="xKaUpdown" Width="50" Margin="813,423,-117,119"
+            RenderTransformOrigin="0.5,0.506" Value="{Binding xKa, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <xctk:DecimalUpDown.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -259,10 +259,10 @@
                 </TransformGroup>
             </xctk:DecimalUpDown.RenderTransform>
         </xctk:DecimalUpDown>
-        <Label Content="Kd" HorizontalAlignment="Left" Margin="880,423,-157,0"
+        <Label Content="Kd" HorizontalAlignment="Left" Margin="777,468,-54,0"
             VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="23"/>
-        <xctk:DecimalUpDown Minimum="0" Maximum="1" x:Name="KdUpdown" Width="50" Margin="918,424,-222,121"
-            RenderTransformOrigin="0.5,0.506" Value="{Binding Kd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+        <xctk:DecimalUpDown Minimum="0" Maximum="1" x:Name="xKdUpdown" Width="50" Margin="815,469,-119,77"
+            RenderTransformOrigin="0.5,0.506" Value="{Binding xKd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <xctk:DecimalUpDown.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -271,10 +271,10 @@
                 </TransformGroup>
             </xctk:DecimalUpDown.RenderTransform>
         </xctk:DecimalUpDown>
-        <Label Content="Ks" HorizontalAlignment="Left" Margin="989,426,-266,0"
+        <Label Content="Ks" HorizontalAlignment="Left" Margin="777,509,-54,0"
             VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="23"/>
-        <xctk:DecimalUpDown Minimum="0" Maximum="1" x:Name="KsUpdown" Width="50" Margin="1027,424,-331,119"
-            RenderTransformOrigin="0.5,0.506" Value="{Binding Ks, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+        <xctk:DecimalUpDown Minimum="0" Maximum="1" x:Name="xKsUpdown" Width="50" Margin="815,507,-119,37"
+            RenderTransformOrigin="0.5,0.506" Value="{Binding xKs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <xctk:DecimalUpDown.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -284,9 +284,69 @@
             </xctk:DecimalUpDown.RenderTransform>
         </xctk:DecimalUpDown>
         <RadioButton x:Name="shadingRadioBtn" Content="Common shading" IsChecked="True" HorizontalAlignment="Left"
-            Margin="811,480,-184,0" VerticalAlignment="Top" Checked="ShadingRadioBtn_Checked" Width="119"/>
+            Margin="824,545,-197,0" VerticalAlignment="Top" Checked="ShadingRadioBtn_Checked" Width="119"/>
         <RadioButton x:Name="texturingRadioBtn" Content="Texturing" HorizontalAlignment="Left"
-            Margin="941,480,-277,0" VerticalAlignment="Top" Checked="TexturingRadioBtn_Checked" Width="82"/>
+            Margin="954,545,-290,0" VerticalAlignment="Top" Checked="TexturingRadioBtn_Checked" Width="82"/>
+        <xctk:DecimalUpDown Minimum="0" Maximum="1" x:Name="zKaUpdown" Width="50" Margin="959,423,-263,121"
+            RenderTransformOrigin="0.5,0.506" Value="{Binding zKa, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <xctk:DecimalUpDown.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <TranslateTransform X="0.003" Y="0.007"/>
+                </TransformGroup>
+            </xctk:DecimalUpDown.RenderTransform>
+        </xctk:DecimalUpDown>
+        <xctk:DecimalUpDown Minimum="0" Maximum="1" x:Name="yKaUpdown" Width="50" Margin="887,423,-191,120"
+            RenderTransformOrigin="0.5,0.506" Value="{Binding yKa, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <xctk:DecimalUpDown.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <TranslateTransform X="0.003" Y="0.007"/>
+                </TransformGroup>
+            </xctk:DecimalUpDown.RenderTransform>
+        </xctk:DecimalUpDown>
+        <xctk:DecimalUpDown Minimum="0" Maximum="1" x:Name="zKdUpdown" Width="50" Margin="960,468,-264,75"
+            RenderTransformOrigin="0.5,0.506" Value="{Binding zKd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <xctk:DecimalUpDown.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <TranslateTransform X="0.003" Y="0.007"/>
+                </TransformGroup>
+            </xctk:DecimalUpDown.RenderTransform>
+        </xctk:DecimalUpDown>
+        <xctk:DecimalUpDown Minimum="0" Maximum="1" x:Name="yKdUpdown" Width="50" Margin="889,468,-193,76"
+            RenderTransformOrigin="0.5,0.506" Value="{Binding yKd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <xctk:DecimalUpDown.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <TranslateTransform X="0.003" Y="0.007"/>
+                </TransformGroup>
+            </xctk:DecimalUpDown.RenderTransform>
+        </xctk:DecimalUpDown>
+        <xctk:DecimalUpDown Minimum="0" Maximum="1" x:Name="yKsUpdown" Width="50" Margin="888,508,-192,37"
+            RenderTransformOrigin="0.5,0.506" Value="{Binding yKs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <xctk:DecimalUpDown.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <TranslateTransform X="0.003" Y="0.007"/>
+                </TransformGroup>
+            </xctk:DecimalUpDown.RenderTransform>
+        </xctk:DecimalUpDown>
+        <xctk:DecimalUpDown Minimum="0" Maximum="1" x:Name="zKsUpdown" Width="50" Margin="958,509,-262,36"
+            RenderTransformOrigin="0.5,0.506" Value="{Binding zKs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <xctk:DecimalUpDown.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <TranslateTransform X="0.003" Y="0.007"/>
+                </TransformGroup>
+            </xctk:DecimalUpDown.RenderTransform>
+        </xctk:DecimalUpDown>
         <!--<Label Content="Phong shading" HorizontalAlignment="Left" Margin="766,341,-118,0"
             VerticalAlignment="Top" RenderTransformOrigin="1.116,0.75" Width="98"/>
         <CheckBox Content="On" HorizontalAlignment="Left" Margin="886,348,-211,0" VerticalAlignment="Top" RenderTransformOrigin="6.479,9.065" Checked="CheckBox_Checked"/>-->

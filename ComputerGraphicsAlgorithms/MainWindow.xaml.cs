@@ -35,8 +35,8 @@ namespace ComputerGraphicsAlgorithms
         };
 
         // Temporary example of file name for parsing
-        //string path = "african_head";
-        string path = "diablo3_pose";
+        string path = "african_head";
+       // string path = "diablo3_pose";
         private bool isTexturing = false;
         private AxisType axis = AxisType.X;
         private int dpiX;
@@ -143,9 +143,9 @@ namespace ComputerGraphicsAlgorithms
             WriteableBitmap bmp = new WriteableBitmap((int)image.Width, (int)image.Height,
                 dpiX, dpiY, PixelFormats.Bgra32, null);
             lighting.GlossCoefficient = vm.GlossCoefficient;
-            lighting.Ka = new Vector3(vm.Ka);
-            lighting.Kd = new Vector3(vm.Kd);
-            lighting.Ks = new Vector3(vm.Ks);
+            lighting.Ka = new Vector3(vm.xKa, vm.yKa, vm.zKa);
+            lighting.Kd = new Vector3(vm.xKd, vm.yKd, vm.zKd);
+            lighting.Ks = new Vector3(vm.xKs, vm.yKs, vm.zKs);
             lighting.AmbientColor = new Vector3(vm.XAmbientColor, vm.YAmbientColor, vm.ZAmbientColor);
             lighting.DiffuseColor = new Vector3(vm.XDiffuseColor, vm.YDiffuseColor, vm.ZDiffuseColor);
             lighting.SpecularColor = new Vector3(vm.XSpecularColor, vm.YSpecularColor, vm.ZSpecularColor);

@@ -64,7 +64,7 @@ namespace ComputerGraphicsAlgorithms.ViewModels
             }
         }
 
-        private float _zLightPos = 0f;
+        private float _zLightPos = 1f;
         public float ZLightPos
         {
             get { return _zLightPos; }
@@ -97,36 +97,102 @@ namespace ComputerGraphicsAlgorithms.ViewModels
             }
         }
 
-        private float _Ka = 0.1f;
-        public float Ka
+        private float _xKa = 0.1f;
+        public float xKa
         {
-            get { return _Ka; }
+            get { return _xKa; }
             set
             {
-                _Ka = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("Ka"));
+                _xKa = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("xKa"));
             }
         }
 
-        private float _Kd = 0.6f;
-        public float Kd
+        private float _yKa = 0.1f;
+        public float yKa
         {
-            get { return _Kd; }
+            get { return _yKa; }
             set
             {
-                _Kd = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("Kd"));
+                _yKa = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("yKa"));
             }
         }
 
-        private float _Ks = 0.7f;
-        public float Ks
+        private float _zKa = 0.1f;
+        public float zKa
         {
-            get { return _Ks; }
+            get { return _zKa; }
             set
             {
-                _Ks = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("Ks"));
+                _zKa = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("zKa"));
+            }
+        }
+
+        private float _xKd = 1f;
+        public float xKd
+        {
+            get { return _xKd; }
+            set
+            {
+                _xKd = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("xKd"));
+            }
+        }
+
+        private float _yKd = 1f;
+        public float yKd
+        {
+            get { return _yKd; }
+            set
+            {
+                _yKd = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("yKd"));
+            }
+        }
+
+        private float _zKd = 1f;
+        public float zKd
+        {
+            get { return _zKd; }
+            set
+            {
+                _zKd = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("zKd"));
+            }
+        }
+
+        private float _xKs = 0.7f;
+        public float xKs
+        {
+            get { return _xKs; }
+            set
+            {
+                _xKs = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("xKs"));
+            }
+        }
+
+        private float _yKs = 0.7f;
+        public float yKs
+        {
+            get { return _yKs; }
+            set
+            {
+                _yKs = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("yKs"));
+            }
+        }
+
+        private float _zKs = 0.7f;
+        public float zKs
+        {
+            get { return _zKs; }
+            set
+            {
+                _zKs = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("zKs"));
             }
         }
         #endregion
