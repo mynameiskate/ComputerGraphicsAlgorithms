@@ -64,16 +64,6 @@ namespace GraphicsServices
 
             int deltaX = Math.Abs(x1 - x0);
             int deltaY = Math.Abs(y1 - y0);
-            float deltaZ = Math.Abs(z1 - z0);
-            float deltaW = (w1 - w0) / deltaY;
-            Vector3 deltaVn = (vn1 - vn0) / deltaY;
-            Vector3 deltaVt = (vt1 - vt0) / deltaY;
-
-            int signX = x0 < x1 ? 1 : -1;
-            int signY = y0 < y1 ? 1 : -1;
-            float signZ = z0 < z1 ? 1 : -1;
-            float zCoef = deltaZ / deltaY;
-
             int error = deltaX - deltaY;
 
             var sidePoints = new List<PixelInfo>();
@@ -90,6 +80,22 @@ namespace GraphicsServices
                     bmp[x1, y1] = lighting.GetColorForPoint(vn1 / w1);
                 }
             }
+
+            // In this case there is no point in further actions
+            if (deltaX == 0 && deltaY == 0)
+            {
+                return sidePoints;
+            }
+
+            int delta = (deltaY == 0) ? deltaX : deltaY;
+            float deltaZ = Math.Abs(z1 - z0) / delta;
+            float deltaW = (w1 - w0) / delta;
+            Vector3 deltaVn = (vn1 - vn0) / delta;
+            Vector3 deltaVt = (vt1 - vt0) / delta;
+
+            int signX = x0 < x1 ? 1 : -1;
+            int signY = y0 < y1 ? 1 : -1;
+            float signZ = z0 < z1 ? 1 : -1;
 
             while (x0 != x1 || y0 != y1)
             {
@@ -119,7 +125,7 @@ namespace GraphicsServices
 
                     error += deltaX;
                     y0 += signY;
-                    z0 += signZ * zCoef;
+                    z0 += signZ * deltaZ;
                     w0 += deltaW;
                     vn0 += deltaVn;
                     vt0 += deltaVt;
