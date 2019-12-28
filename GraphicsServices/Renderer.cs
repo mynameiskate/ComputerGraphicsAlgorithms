@@ -7,11 +7,11 @@ using System.Linq;
 using System.Numerics;
 using System.Windows.Media.Imaging;
 using GraphicsServices.Extensions;
+using System.Threading.Tasks;
+using GraphicsServices.Lighting;
 using Camera = GraphicsServices.RenderObjTypes.Camera;
 using Point = System.Drawing.Point;
 using BmpColor = System.Windows.Media.Color;
-using System.Threading.Tasks;
-using GraphicsServices.Lighting;
 
 namespace GraphicsServices
 {
@@ -191,7 +191,8 @@ namespace GraphicsServices
                     var normal = GetSurfaceNormal(
                         new Vector3(pixels[0].X, pixels[0].Y, pixels[0].Z),
                         new Vector3(pixels[1].X, pixels[1].Y, pixels[1].Z),
-                        new Vector3(pixels[2].X, pixels[2].Y, pixels[2].Z));
+                        new Vector3(pixels[2].X, pixels[2].Y, pixels[2].Z)
+                    );
 
                     if (normal.Z < 0)
                     {

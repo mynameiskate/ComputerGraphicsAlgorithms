@@ -82,7 +82,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="FileExtensions.cs" />
+    <Compile Include="Config\FileExtensions.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -118,7 +118,8 @@ namespace ComputerGraphicsAlgorithms
                     Kd = Kd,
                     Ks = Ks
                 };
-            } else
+            }
+            else
             {
                 lighting = new PhongLighting
                 {
