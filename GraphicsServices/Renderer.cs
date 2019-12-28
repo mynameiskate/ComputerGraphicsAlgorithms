@@ -73,7 +73,7 @@ namespace GraphicsServices
             {
                 if (lighting is PhongTexturizingLighting)
                 {
-                    bmp[x1, y1] = lighting.GetTexturizedColorForPoint(obj, vn1 / w1, vt1/ w1);
+                    bmp[x1, y1] = lighting.GetTexturizedColorForPoint(obj, vn1 / w1, vt1 / w1);
                 }
                 else
                 {
@@ -188,7 +188,6 @@ namespace GraphicsServices
                             Matrix4x4.CreateRotationY(mesh.Rotation.Y, mesh.Position) * Matrix4x4.CreateTranslation(mesh.Position));
                     }
 
-
                     var normal = GetSurfaceNormal(
                         new Vector3(pixels[0].X, pixels[0].Y, pixels[0].Z),
                         new Vector3(pixels[1].X, pixels[1].Y, pixels[1].Z),
@@ -215,8 +214,14 @@ namespace GraphicsServices
                         sidePoints.AddRange(GetSides(
                             mesh,
                             new PixelInfo { X = (int)pixels[0].X, Y = (int)pixels[0].Y, Z = pixels[0].Z, Vn = normals[0], Vt = textures[0], W = pixels[0].W },
-                            new PixelInfo { X = (int)pixels[pixels.Length - 1].X, Y = (int)pixels[pixels.Length - 1].Y, Z = pixels[pixels.Length - 1].Z,
-                                Vn = normals[pixels.Length - 1], Vt = textures[pixels.Length - 1], W = pixels[pixels.Length - 1].W
+                            new PixelInfo
+                            {
+                                X = (int)pixels[pixels.Length - 1].X,
+                                Y = (int)pixels[pixels.Length - 1].Y,
+                                Z = pixels[pixels.Length - 1].Z,
+                                Vn = normals[pixels.Length - 1],
+                                Vt = textures[pixels.Length - 1],
+                                W = pixels[pixels.Length - 1].W
                             }
                         ));
 
@@ -228,21 +233,76 @@ namespace GraphicsServices
 
         private void Rasterize(RenderObj obj, List<PixelInfo> sidePoints)
         {
-            var yCoordsCount = sidePoints.Select(x => x.Y).Distinct().Count();
+            var xCoords = sidePoints.Select(x => x.X).Distinct();
+            var yCoords = sidePoints.Select(x => x.Y).Distinct();
 
-            if (yCoordsCount < 2)
+            if (yCoords.Count() == 1)
             {
-                // Swap x and y for the case when all pixels have the same Y
-                // in order for interpolation to work
+                RasterizeForYAxis(obj: obj, pixels: sidePoints, y: yCoords.First());
+            }
+            else if (xCoords.Count() == 1)
+            {
+                int x = xCoords.First();
+
+                // Swapping in order for making X-axis interpolation work
                 foreach (var pixel in sidePoints)
                 {
-                    var temp = pixel.X;
+                    int temp = pixel.X;
                     pixel.X = pixel.Y;
                     pixel.Y = temp;
                 }
-            }
 
-            RasterizeByY(obj, sidePoints);
+                RasterizeForYAxis(obj: obj, pixels: sidePoints, y: x, swapped: true);
+            }
+            else
+            {
+                RasterizeByY(obj, sidePoints);
+            }
+        }
+
+        private void RasterizeForYAxis(RenderObj obj, List<PixelInfo> pixels, int y, bool swapped = false)
+        {
+            var coordinates = pixels
+               .Where(coord => coord.Y == y)
+               .DistinctBy(coord => coord.X)
+               .OrderBy(coord => coord.X);
+
+            var startPoint = coordinates.First();
+            var endPoint = coordinates.Last();
+            var delta = endPoint.X - startPoint.X;
+
+            if (delta == 0) return;
+
+            int signZ = startPoint.Z < endPoint.Z ? 1 : -1;
+            float z = startPoint.Z;
+            float w = startPoint.W;
+            Vector3 vn = startPoint.Vn;
+            Vector3 vt = startPoint.Vt;
+
+            float deltaZ = Math.Abs((endPoint.Z - startPoint.Z) / delta);
+            float deltaW = (endPoint.W - startPoint.W) / delta;
+            Vector3 deltaVn = (endPoint.Vn - startPoint.Vn) / delta;
+            Vector3 deltaVt = (endPoint.Vt - startPoint.Vt) / delta;
+
+            for (int x = startPoint.X; x < endPoint.X; x++)
+            {
+                z += signZ * deltaZ;
+                vn += deltaVn;
+                vt += deltaVt;
+                w += deltaW;
+
+                if (UpdateZBuffer(swapped ? y : x, swapped ? x : y, z))
+                {
+                    if (lighting is PhongTexturizingLighting)
+                    {
+                        bmp[x, y] = lighting.GetTexturizedColorForPoint(obj, vn / w, vt / w);
+                    }
+                    else
+                    {
+                        bmp[x, y] = lighting.GetColorForPoint(vn / w);
+                    }
+                }
+            }
         }
 
         private void RasterizeByY(RenderObj obj, List<PixelInfo> sidePoints)
@@ -252,49 +312,7 @@ namespace GraphicsServices
             foreach (var pixel in yList)
             {
                 int y = pixel.Y;
-
-                var coordinates = sidePoints
-                   .Where(coord => coord.Y == y)
-                   .OrderBy(coord => coord.X)
-                   .DistinctBy(coord => coord.X)
-                   .ToList();
-
-                var startPoint = coordinates.First();
-                var endPoint = coordinates.Last();
-
-                int signZ = startPoint.Z < endPoint.Z ? 1 : -1;
-                var delta = endPoint.X - startPoint.X;
-                float z = startPoint.Z;
-                float w = startPoint.W;
-                Vector3 vn = startPoint.Vn;
-                Vector3 vt = startPoint.Vt;
-
-                if (delta == 0) continue;
-
-                float deltaZ = Math.Abs((endPoint.Z - startPoint.Z) / delta);
-                float deltaW = (endPoint.W - startPoint.W) / delta;
-                Vector3 deltaVn = (endPoint.Vn - startPoint.Vn) / delta;
-                Vector3 deltaVt = (endPoint.Vt - startPoint.Vt) / delta;
-
-                for (int x = startPoint.X; x < endPoint.X; x++)
-                {
-                    z += signZ * deltaZ;
-                    vn += deltaVn;
-                    vt += deltaVt;
-                    w += deltaW;
-
-                    if (UpdateZBuffer(x, y, z))
-                    {
-                        if (lighting is PhongTexturizingLighting)
-                        {
-                            bmp[x, y] = lighting.GetTexturizedColorForPoint(obj, vn / w, vt / w);
-                        }
-                        else
-                        {
-                            bmp[x, y] = lighting.GetColorForPoint(vn / w);
-                        }
-                    }
-                }
+                RasterizeForYAxis(obj, sidePoints, pixel.Y);
             }
         }
 

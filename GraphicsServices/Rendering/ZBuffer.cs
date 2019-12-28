@@ -44,6 +44,7 @@ namespace GraphicsServices.GraphicObjTypes
                     throw new IndexOutOfRangeException();
                 }
             }
+
             set
             {
                 if (CoordinatesInRange(x, y))
