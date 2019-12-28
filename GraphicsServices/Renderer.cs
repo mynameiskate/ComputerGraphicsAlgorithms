@@ -226,13 +226,93 @@ namespace GraphicsServices
 
         private void Rasterize(RenderObj obj, List<PixelInfo> sidePoints)
         {
+            var xCount = sidePoints.Select(x => x.X).Distinct().Count();
+            var yCount = sidePoints.Select(x => x.Y).Distinct().Count();
+
+            if (yCount < 2)
+            {
+                RasterizeX(obj, sidePoints);
+            }
+            else
+            {
+                RasterizeY(obj, sidePoints);
+            }
+            //var orderedCoords = sidePoints.OrderBy(x => x.Y);
+
+            //foreach (var pixel in orderedCoords)
+            //{
+            //    int y = pixel.Y;
+            //    var xList = sidePoints.Select(x => x.X).Distinct();
+
+            //    var sameYList = sidePoints
+            //        .Where(x => x.Y == y)
+            //        .OrderBy(x => x.X)
+            //        .ToList();
+            //}
+        }
+
+        private void RasterizeX(RenderObj obj, List<PixelInfo> sidePoints)
+        {
+            PixelInfo xStartPixel, xEndPixel;
+
+            var xList = sidePoints.OrderBy(x => x.X).ToList();
+
+            foreach (var pixel in xList)
+            {
+                int x = pixel.X;
+
+                var sameXList = sidePoints
+                   .Where(coord => coord.X == x)
+                   .OrderBy(coord => coord.Y)
+                   .ToList();
+
+                xStartPixel = sameXList[0];
+                xEndPixel = sameXList[sameXList.Count - 1];
+
+                int signZ = xStartPixel.Z < xEndPixel.Z ? 1 : -1;
+                var delta = xEndPixel.Y - xStartPixel.Y;
+
+                float deltaZ = Math.Abs((xEndPixel.Z - xStartPixel.Z) / delta);
+                float curZ = xStartPixel.Z;
+                Vector3 deltaVn = (xEndPixel.Vn - xStartPixel.Vn) / delta;
+                Vector3 curVn = xStartPixel.Vn;
+                Vector3 deltaVt = (xEndPixel.Vt - xStartPixel.Vt) / delta;
+                Vector3 curVt = xStartPixel.Vt;
+                float deltaW = (xEndPixel.W - xStartPixel.W) / delta;
+                float curW = xStartPixel.W;
+
+                for (int coord = xStartPixel.Y; x < xEndPixel.Y; coord++)
+                {
+                    curZ += signZ * deltaZ;
+                    curVn += deltaVn;
+                    curVt += deltaVt;
+                    curW += deltaW;
+
+                    if (UpdateZBuffer(x, coord, curZ))
+                    {
+                        if (lighting is PhongTexturizingLighting)
+                        {
+                            bmp[x, coord] = lighting.GetTexturizedColorForPoint(obj, curVn / curW, curVt / curW);
+                        }
+                        else
+                        {
+                            bmp[x, coord] = lighting.GetColorForPoint(curVn / curW);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void RasterizeY(RenderObj obj, List<PixelInfo> sidePoints)
+        {
             PixelInfo xStartPixel, xEndPixel;
 
             var yList = sidePoints.OrderBy(x => x.Y).ToList();
 
-            for (int i = 1; i < yList.Count - 1; i++)
+            foreach(var pixel in yList)
             {
-                int y = yList[i].Y;
+                int y = pixel.Y;
+
                 FindStartAndEndXByY(sidePoints, y, out xStartPixel, out xEndPixel);
 
                 int signZ = xStartPixel.Z < xEndPixel.Z ? 1 : -1;

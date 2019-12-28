@@ -11,7 +11,9 @@ namespace GraphicsServices.RenderObjTypes
         public Vector3[] TextureCoordinates { get; private set; }
         public Vector3 Position { get; set; }
         public Vector3 Rotation { get; set; }
+
         public int Direction = 1;
+
         public int Scale = 1;
         public Matrix4x4 ModelMatrix { get; set; }
         public Bgr24Bitmap NormalTexture { get; set; }
