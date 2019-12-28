@@ -184,7 +184,8 @@ namespace GraphicsServices
 
                     for (int i = 0; i < face.TextureVertexIndexList.Length; i++)
                     {
-                        textures[i] = Vector3.TransformNormal(mesh.TextureCoordinates[face.TextureVertexIndexList[i] - 1], worldMatrix);
+                        textures[i] = Vector3.TransformNormal(mesh.TextureCoordinates[face.TextureVertexIndexList[i] - 1],
+                            Matrix4x4.CreateRotationY(mesh.Rotation.Y, mesh.Position) * Matrix4x4.CreateTranslation(mesh.Position));
                     }
 
 
