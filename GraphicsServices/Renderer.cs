@@ -47,7 +47,7 @@ namespace GraphicsServices
         }
 
         // Bresenham's algorithm
-        public List<PixelInfo> GetSides(RenderObj obj, PixelInfo point0, PixelInfo point1, ZBuffer zBuf)
+        public List<PixelInfo> GetSides(RenderObj obj, PixelInfo point0, PixelInfo point1)
         {
             int x0 = point0.X;
             int y0 = point0.Y;
@@ -200,8 +200,7 @@ namespace GraphicsServices
                             sidePoints.AddRange(GetSides(
                                 mesh,
                                 new PixelInfo { X = (int)pixels[i].X, Y = (int)pixels[i].Y, Z = pixels[i].Z, Vn = normals[i], Vt = textures[i], W = pixels[i].W },
-                                new PixelInfo { X = (int)pixels[i + 1].X, Y = (int)pixels[i + 1].Y, Z = pixels[i + 1].Z, Vn = normals[i + 1], Vt = textures[i + 1], W = pixels[i + 1].W },
-                                zBuf
+                                new PixelInfo { X = (int)pixels[i + 1].X, Y = (int)pixels[i + 1].Y, Z = pixels[i + 1].Z, Vn = normals[i + 1], Vt = textures[i + 1], W = pixels[i + 1].W }
                             ));
                         }
 
@@ -210,8 +209,7 @@ namespace GraphicsServices
                             new PixelInfo { X = (int)pixels[0].X, Y = (int)pixels[0].Y, Z = pixels[0].Z, Vn = normals[0], Vt = textures[0], W = pixels[0].W },
                             new PixelInfo { X = (int)pixels[pixels.Length - 1].X, Y = (int)pixels[pixels.Length - 1].Y, Z = pixels[pixels.Length - 1].Z,
                                 Vn = normals[pixels.Length - 1], Vt = textures[pixels.Length - 1], W = pixels[pixels.Length - 1].W
-                            },
-                            zBuf
+                            }
                         ));
 
                         Rasterize(mesh, sidePoints);
