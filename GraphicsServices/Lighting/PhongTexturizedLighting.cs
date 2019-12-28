@@ -70,7 +70,6 @@ namespace GraphicsServices.Lighting
             return Vector3.Normalize(SpecularColor) * (float)Math.Pow(Math.Max(Vector3.Dot(reflectionVector, new Vector3(0, 0, -1)), 0), GlossCoefficient) * textureVector;
         }
 
-        // Bilinear interpolation
         // z = (A(1 - x) + Bx)(1 - y) + (C(1 - x) + Dx)y
         // x = deltaX
         // y = deltaY

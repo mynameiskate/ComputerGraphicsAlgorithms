@@ -311,7 +311,6 @@ namespace GraphicsServices
 
             foreach (var pixel in yList)
             {
-                int y = pixel.Y;
                 RasterizeForYAxis(obj, sidePoints, pixel.Y);
             }
         }
