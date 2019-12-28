@@ -49,7 +49,7 @@ namespace GraphicsServices.Lighting
             if (texture == null) return new Vector3(0);
             var textureVector = Interpolate(texture, x, y);
 
-            return Ka * textureVector;
+            return Vector3.Normalize(AmbientColor) * textureVector;
         }
 
         private Vector3 GetDiffusedTextureVector(Bgr24Bitmap texture, float x, float y, Vector3 normal)
@@ -57,7 +57,7 @@ namespace GraphicsServices.Lighting
             if (texture == null) return new Vector3(0);
             var textureVector = Interpolate(texture, x, y);
 
-            return Kd * Math.Max(Vector3.Dot(normal, Vector), 0) * textureVector;
+            return Vector3.Normalize(DiffuseColor) * Math.Max(Vector3.Dot(normal, Vector), 0) * textureVector;
         }
 
         private Vector3 GetSpecularTextureVector(Bgr24Bitmap texture, float x, float y, Vector3 normal)
@@ -67,7 +67,7 @@ namespace GraphicsServices.Lighting
             var textureVector = Interpolate(texture, x, y);
 
             // 𝑅 = 𝐿 − 2 ∙ (𝐿 ∙ 𝑁) ∙ 𝑁
-            return Ks * (float)Math.Pow(Math.Max(Vector3.Dot(reflectionVector, new Vector3(0, 0, -1)), 0), GlossCoefficient) * textureVector;
+            return Vector3.Normalize(SpecularColor) * (float)Math.Pow(Math.Max(Vector3.Dot(reflectionVector, new Vector3(0, 0, -1)), 0), GlossCoefficient) * textureVector;
         }
 
         // Bilinear interpolation
