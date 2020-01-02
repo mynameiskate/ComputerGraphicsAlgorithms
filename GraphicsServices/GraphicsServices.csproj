@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Parsing\GraphicTypes.cs">
+    <Compile Update="GraphicObjTypes\GraphicTypes.cs">
       <Generator>\</Generator>
     </Compile>
   </ItemGroup>
