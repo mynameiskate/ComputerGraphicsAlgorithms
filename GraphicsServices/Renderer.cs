@@ -244,7 +244,7 @@ namespace GraphicsServices
             {
                 int x = xCoords.First();
 
-                // Swapping in order to make X-axis interpolation work
+                // Swapping in order for making X-axis interpolation work
                 foreach (var pixel in sidePoints)
                 {
                     int temp = pixel.X;
